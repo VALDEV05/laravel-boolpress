@@ -7,6 +7,7 @@
                     Posts
                 <i class="fas fa-newspaper fa-lg fa-fw"></i>
             </h1>
+            <h5 class="alert alert-warning text-center"> Attento, se clicchi sul bottone rosso cancelli direttamente</h5>
         </div>
         <div class="row my-3">
             @foreach ($posts as $post)
@@ -16,10 +17,15 @@
                             <h4 class="card-title w-75">{{ $post->title }}</h4>
                             <p class="card-text">{{ $post->sub_title }}</p>
                             <div class="actions w-100 d-flex justify-content-around">
-                                <a href="{{ route('posts.show', $post->slug) }}"><i class="fas fa-eye fa-lg fa-fw"></i></a>
-                                <a href="{{ route('admin.posts.edit', $post->slug) }}"><i class="fas fa-pencil-alt fa-lg fa-fw"></i></a>
-                                <i class="fas fa-trash fa-lg fa-fw"></i>
-                            </div>
+                                <button type="submit" class="btn btn-primary"><a class="text-light" href="{{ route('posts.show', $post->slug) }}"><i class="fas fa-eye fa-lg fa-fw"></i></a></button>
+                                <button type="submit" class="btn btn-primary"><a class="text-light" href="{{ route('admin.posts.edit', $post->slug) }}"><i class="fas fa-pencil-alt fa-lg fa-fw"></i></a></button>                            
+                                <form action="{{route('admin.posts.destroy', $post->slug)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </form>
+                            </div>   
                         </div>
                     </div>
                 </div>   
