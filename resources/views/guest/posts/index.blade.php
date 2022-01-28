@@ -11,7 +11,7 @@
                         <div class="card-body d-flex flex-column justify-content-between text-center">
                             <h2 class="card-title">{{ $post->title}}</h2>
                             <p class="card-text">{{ $post->sub_title }}</p>
-                            <a class="btn btn-outline-primary btn-lg mb-1" href="route{{ 'posts.show' }}">View More </a>
+                            <a class="btn btn-outline-primary btn-lg mb-1" href="{{ route('posts.show', $post->slug) }}">View More </a>
                         </div>
 
                     </div>

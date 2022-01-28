@@ -16,7 +16,7 @@
                             <h4 class="card-title w-75">{{ $post->title }}</h4>
                             <p class="card-text">{{ $post->sub_title }}</p>
                             <div class="actions w-100 d-flex justify-content-around">
-                                <i class="fas fa-eye fa-lg fa-fw"></i>
+                                <a href="{{ route('posts.show', $post->slug) }}"><i class="fas fa-eye fa-lg fa-fw"></i></a>
                                 <i class="fas fa-pencil-alt fa-lg fa-fw"></i>
                                 <i class="fas fa-trash fa-lg fa-fw"></i>
                             </div>
@@ -27,7 +27,7 @@
             
         </div>
         <div id="paginate" class="mt-5 d-flex justify-content-between">
-            <a class="btn btn-outline-warning btn-lg d-flex justify-content-center align-items-center" href="#">Create <i class="pl-2 fas fa-user-edit fa-lg fa-fw"></i></a>
+            <a class="btn btn-outline-warning btn-lg d-flex justify-content-center align-items-center" href="{{ route('admin.posts.create') }}">Create <i class="pl-2 fas fa-user-edit fa-lg fa-fw"></i></a>
             {{ $posts->links() }}
         </div>
     </div>
