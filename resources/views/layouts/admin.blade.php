@@ -63,6 +63,10 @@
                                     <i class="fas fa-tachometer-alt fa-lg fa-fw"></i>
                                     Dashboard
                                 </a>
+                                <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('admin.posts.index')}}">
+                                    <i class="fas fa-blog fa-lg fa-fw"></i>
+                                    Blog
+                                </a>
                             </li>
                         </ul>
 
