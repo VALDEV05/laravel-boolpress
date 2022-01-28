@@ -17,11 +17,21 @@ Route::get('/', function () {
     return view('guest.welcome');
 })->name('guest.home');
 
+
+Route::resource('posts', PostController::class)->only(['index', 'show']);
+
+
+
 Auth::routes();
 
-/* Route::get('/home', 'HomeController@index')->name('home'); */
 
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->group(function(){
+
+    /* Route DashBoard */
     Route::get('/', 'PageController@index')->name('dashboard');
+
+    Route::resource('posts', PostController::class);
+
+
 });
