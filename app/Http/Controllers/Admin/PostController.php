@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -60,11 +61,11 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response  
      */
     public function edit(Post $post)
     {
-        //
+        return view ('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -76,7 +77,21 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        //ddd($request->all());
+        //Validare dati
+        $validate = $request->validate([
+            'title' => ['required',Rule::unique('posts')->ignore($post->id)],
+            'cover' => ['required'],
+            'sub_title' => ['required'],
+            'body' => ['required']
+        ]);
+        //creazione slug
+        $validate['slug']= Str::slug($validate['title']);
+        //ddd($validate);
+        //salvare dati
+        $post->update($validate);
+        //redirect
+        return redirect()->route('admin.posts.index')->with('message',' Hai modificato un nuovo post');
     }
 
     /**
