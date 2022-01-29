@@ -10962,3 +10962,29 @@ a.text-dark:focus {
     * font-family: 'Poppins', sans-serif;
 */
 
+body {
+  font-family: "Poppisn", sans-serif;
+}
+
+nav.navbar .navbar-nav.menu_main li {
+  display: flex;
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+nav.navbar .navbar-nav.menu_main li a {
+  color: #000;
+}
+
+nav.navbar .navbar-nav.menu_main li p {
+  display: none;
+  margin-top: -1rem;
+  padding: 3px 0;
+}
+
+nav.navbar .navbar-nav.menu_main li:hover p {
+  display: block;
+}
+

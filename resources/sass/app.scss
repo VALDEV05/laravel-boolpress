@@ -9,3 +9,30 @@
     * font-family: 'Cabin', sans-serif;
     * font-family: 'Poppins', sans-serif;
 */
+
+body {
+    font-family: 'Poppisn', sans-serif;
+}
+
+nav.navbar {
+    .navbar-nav.menu_main {
+        li {
+            display: flex;
+            flex-direction: column !important;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+            a {
+                color: $black;
+            }
+            p {
+                display: none;
+                margin-top: -1rem;
+                padding: 3px 0;
+            }
+            &:hover p {
+                display: block;
+            }
+        }
+    }
+}

@@ -28,19 +28,30 @@
             <div class="container">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                    <ul class="navbar-nav menu_main mr-auto">
+                        <li class="nav-item" >
                             <a class="nav-link" href="{{ route('guest.home') }}"> <i class="fa fa-home fa-lg fa-fw"></i></a>
+                            <p class="mb-0">
+                                Home
+                            </p>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="far fa-address-card  fa-lg fa-fw"></i></a>
-                            
+                            <p class="mb-0">
+                                about
+                            </p>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-phone-alt  fa-lg fa-fw "></i></a>
+                            <p class="mb-0">
+                                contacts
+                            </p>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('posts.index') }}"><i class="fas fa-newspaper fa-lg fa-fw"></i></a>
+                            <p class="mb-0">
+                                Blog
+                            </p>
                         </li>
                     </ul>
 

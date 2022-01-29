@@ -30,7 +30,6 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        //ddd($categories);
         return view('admin.posts.create', compact('categories'));
     }
 
@@ -43,9 +42,6 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //Validare dati
-        //ddd($request->all());
-
-
          $validate = $request->validate([
             'title'=> 'required',
             'cover'=> 'required',
@@ -53,11 +49,13 @@ class PostController extends Controller
             'body'=> 'required',
             'category' => 'nullable | exists:categories,id',
         ]);
+
         //creazione slug
         $validate['slug']= Str::slug($validate['title']);
-        //ddd($validate);
+
         //salvare dati
         Post::create($validate);
+
         //redirect
         return redirect()->route('admin.posts.index')->with('message',' Hai creato un nuovo post'); 
     }
@@ -84,7 +82,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //ddd($request->all());
         //Validare dati
         $validate = $request->validate([
             'title' => ['required',Rule::unique('posts')->ignore($post->id)],
@@ -93,11 +90,13 @@ class PostController extends Controller
             'body' => ['required'],
             'category_id' => 'nullable|exists:categories,id',
         ]);
+
         //creazione slug
         $validate['slug']= Str::slug($validate['title']);
-        //ddd($validate);
+
         //salvare dati
         $post->update($validate);
+        
         //redirect
         return redirect()->route('admin.posts.index')->with('message',' Hai modificato un nuovo post');
     }
