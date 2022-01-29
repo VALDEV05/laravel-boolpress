@@ -10,6 +10,7 @@
                     <h6 class="display-3 text-muted">{{ $post->sub_title }}</h6>
                     <img width="1000px" src="{{ $post->cover }}" alt="">
                     <p class="lead mt-4">{{ $post->body }}</p>
+                    <p><em>Category: {{ $post->category ? $post->category->name : 'Uncategorized'}}</em></p>
                     <hr class="my-2">
                     <p>More info</p>
                     <p class="lead">

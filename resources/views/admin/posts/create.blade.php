@@ -38,6 +38,19 @@
                   <input type="text" name="body" id="body" class="form-control" placeholder="Type Here" value="{{ old('body') }}">
                   <small id="body" class="text-muted d-flex justify-content-center pt-1">Tipe here your body | MAX : 200</small>
                 </div>
+
+                <div class="form-group mb-3">
+                  <label for="category_id">Categories</label>
+                  <select class="form-control" name="category_id" id="category_id">
+                      <option selected disabled>Select a category</option>
+                      @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                      @endforeach
+
+                  </select>
+                </div>
+
+                
                 <div class="actions d-flex justify-content-around align-items-center">
                     <div class="btn-group-mia d-flex flex-column">
                         <label for="body" class="form-label d-flex justify-content-center text-primary">SAVE</label>

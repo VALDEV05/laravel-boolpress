@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -28,7 +29,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        //ddd($categories);
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -39,13 +42,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //ddd($request->all());
         //Validare dati
-        $validate = $request->validate([
+        //ddd($request->all());
+
+
+         $validate = $request->validate([
             'title'=> 'required',
             'cover'=> 'required',
             'sub_title'=> 'required',
             'body'=> 'required',
+            'category' => 'nullable | exists:categories,id',
         ]);
         //creazione slug
         $validate['slug']= Str::slug($validate['title']);
@@ -53,7 +59,7 @@ class PostController extends Controller
         //salvare dati
         Post::create($validate);
         //redirect
-        return redirect()->route('admin.posts.index')->with('message',' Hai creato un nuovo post');
+        return redirect()->route('admin.posts.index')->with('message',' Hai creato un nuovo post'); 
     }
 
 
@@ -65,7 +71,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view ('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view ('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -83,7 +90,8 @@ class PostController extends Controller
             'title' => ['required',Rule::unique('posts')->ignore($post->id)],
             'cover' => ['required'],
             'sub_title' => ['required'],
-            'body' => ['required']
+            'body' => ['required'],
+            'category_id' => 'nullable|exists:categories,id',
         ]);
         //creazione slug
         $validate['slug']= Str::slug($validate['title']);
