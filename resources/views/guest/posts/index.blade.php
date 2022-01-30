@@ -4,7 +4,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-9">
+            <div class="col-10">
                 <div class="container">
                     <div class="row">
                          @foreach ($posts as $post)
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <aside class="col-2">
                 <div class="card mb-2">
                     <div class="card-body">
                         <h3>
@@ -32,22 +32,13 @@
                         <ul>
                             @foreach($categories as $category)
                             <li>
-                                <a href="#">{{$category->name}}</a>
+                                <a href="{{ route('categories.posts', $category->slug) }}">{{$category->name}}</a>
                             </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
-                <div class="mb-3 d-flex flex-column">
-                  <label for="categories" class="form-label">Categories</label>
-                  <select multiple class="form-select" name="categories" id="categories">
-                      @foreach ($categories as $category)  
-                        <option selected><a href="#">{{$category->name}}</a></option> 
-                      @endforeach
-                        
-                    </select>
-                </div>
-            </div>
+            </aside>
             
         </div>
     </div>
