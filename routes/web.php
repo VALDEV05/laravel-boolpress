@@ -21,7 +21,6 @@ Route::get('/', function () {
 Route::resource('posts', PostController::class)->only(['index', 'show']);
 
 
-
 Auth::routes();
 
 
@@ -30,8 +29,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
 
     /* Route DashBoard */
     Route::get('/', 'PageController@index')->name('dashboard');
-
+    /* Route Posts */
     Route::resource('posts', PostController::class);
-
-
 });
+
+
+/* route to show all categories  */
+Route::get('categories/{category:slug}/posts', 'CategoryController@posts')->name('categories.posts');

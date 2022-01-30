@@ -8,9 +8,19 @@
                 <div class="container text-center">
                     <h1 class="display-3">{{ $post->title }}</h1>
                     <h6 class="display-3 text-muted">{{ $post->sub_title }}</h6>
+                    <div class="metadata">
+                        <div class="category">
+                            @if ($post->category)
+                                Category: <a class="text-decoration-none text-dark" href="{{ route('categories.posts', $post->category->slug) }}">{{ $post->category->name }}</a>
+                            @else
+                                <span class="text-muted text-uppercase">Uncategorized</span>
+                            @endif
+                        </div>
+                    </div>
+
                     <img width="1000px" src="{{ $post->cover }}" alt="">
                     <p class="lead mt-4">{{ $post->body }}</p>
-                    <p><em>Category: {{ $post->category ? $post->category->name : 'Uncategorized'}}</em></p>
+                    
                     <hr class="my-2">
                     <p>More info</p>
                     <p class="lead">
