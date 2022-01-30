@@ -56,7 +56,7 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('guest.home')}}">
-                                    <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
+                                    <i class="fa fa-home fa-lg fa-fw"></i>
                                     HomePage
                                 </a>
                                 <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('admin.dashboard')}}">
@@ -66,6 +66,10 @@
                                 <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('admin.posts.index')}}">
                                     <i class="fas fa-blog fa-lg fa-fw"></i>
                                     Blog
+                                </a>
+                                <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('admin.categories.index')}}">
+                                    <i class="fas fa-code-branch fa-lg fa-fw"></i>
+                                    Categories
                                 </a>
                             </li>
                         </ul>

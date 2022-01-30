@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCategoryController as AdminAdminCategoryController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -26,11 +29,14 @@ Auth::routes();
 
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->group(function(){
-
+    
+    
     /* Route DashBoard */
     Route::get('/', 'PageController@index')->name('dashboard');
     /* Route Posts */
     Route::resource('posts', PostController::class);
+    /* Route Categories */
+    Route::get('admin/categories/index', 'Admin\CategoryController@index')->name('admin.categories.index');
 });
 
 
