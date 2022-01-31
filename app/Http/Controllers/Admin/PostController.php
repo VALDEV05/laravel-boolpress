@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -18,7 +19,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderByDesc('id')->paginate(6);
+        $posts = Auth::user()->posts()->orderByDesc('id')->paginate(6);
+        //$posts = Post::orderByDesc('id')->paginate(6);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -27,7 +29,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() 
     {
         $categories = Category::all();
         return view('admin.posts.create', compact('categories'));
@@ -53,6 +55,10 @@ class PostController extends Controller
         //creazione slug
         $validate['slug']= Str::slug($validate['title']);
 
+        //creazione user_id
+        $validate['user_id'] = Auth::id();
+
+
         //salvare dati
         Post::create($validate);
 
@@ -69,8 +75,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $categories = Category::all();
-        return view ('admin.posts.edit', compact('post', 'categories'));
+        if (Auth::id() == $post->user_id) {
+            $categories = Category::all();
+            return view ('admin.posts.edit', compact('post', 'categories'));
+        }else{
+            abort(403);
+        }
     }
 
     /**
@@ -82,23 +92,28 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //Validare dati
-        $validate = $request->validate([
-            'title' => ['required',Rule::unique('posts')->ignore($post->id)],
-            'cover' => ['required'],
-            'sub_title' => ['required'],
-            'body' => ['required'],
-            'category_id' => 'nullable|exists:categories,id',
-        ]);
+        if (Auth::id() == $post->user_id) {
+             //Validare dati
+            $validate = $request->validate([
+                'title' => ['required',Rule::unique('posts')->ignore($post->id)],
+                'cover' => ['required'],
+                'sub_title' => ['required'],
+                'body' => ['required'],
+                'category_id' => 'nullable|exists:categories,id',
+            ]);
 
-        //creazione slug
-        $validate['slug']= Str::slug($validate['title']);
+            //creazione slug
+            $validate['slug']= Str::slug($validate['title']);
 
-        //salvare dati
-        $post->update($validate);
-        
-        //redirect
-        return redirect()->route('admin.posts.index')->with('message',' Hai modificato un nuovo post');
+            //salvare dati
+            $post->update($validate);
+            
+            //redirect
+            return redirect()->route('admin.posts.index')->with('message',' Hai modificato un nuovo post');
+        }else{
+            abort(403);
+        }
+       
     }
 
     /**
@@ -109,7 +124,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
-        return redirect()->route('admin.posts.index');
+        if (Auth::id() == $post->user_id) {
+            $post->delete();
+            return redirect()->route('admin.posts.index');
+        }else{
+            abort(403);
+        }
     }
 }
