@@ -53,29 +53,7 @@ class CategoryController extends Controller
         //salvataggio
         Category::create($validate);
         //return
-        return redirect()->route('admin.categories.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        return redirect()->route('admin.categories.index')->with('message', '🥳 Complimenti hai implementato una nuova categoria');
     }
 
     /**
@@ -87,7 +65,23 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        //ddd($request->all());
+
+        //validazione
+        $validate = $request->validate([
+            'name'=> 'required'
+        ]);
+
+        //creazione slug
+        $validate['slug']= Str::slug($validate['name']);
+
+        //ddd
+        //ddd($request->all(), $validate);
+
+        //salvataggio
+        $category->update($validate);
+        //return
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -98,6 +92,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('message', '😱 Hai rimosso una categoria per sempre!!');
+        
     }
 }
