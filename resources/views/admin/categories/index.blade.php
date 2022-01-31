@@ -2,11 +2,7 @@
 
 
 @section('content')
-    @if (session('message'))
-        <div class="alert alert-warning text-center">
-            {{ session('message') }}
-        </div>
-    @endif
+    @include('partials.messages')
     <div class="container">
         <h1 class="text-center my-5"><i class="fas fa-code-branch fa-lg fa-fw"></i> Add a new category <i class="fas fa-code-branch fa-lg fa-fw"></i></h1>
         <div class="row mb-5">
@@ -27,6 +23,9 @@
             </div>
             <div class="col-12 mt-5">
                 <h3 class="text-center mb-3"><i class="fas fa-scroll fa-lg fa-fw"></i> Scroll for other categories <i class="fas fa-scroll fa-lg fa-fw"></i></h3> 
+                <p class="mb-0 text-center">
+                    Per modificare una categoria clicca sul nome e premi invio
+                </p>
                 <div class="categories-list">
                     <div class="container">
                         <div class="row d-flex justify-content-center">
@@ -35,13 +34,14 @@
                                     <div class="card w-100 mt-2">
                                         <div class="card-body">
                                             <form action="{{ route('admin.categories.update', $category->id) }}" method="post">
-                                                    @csrf
-                                                    @method('PATCH')
+                                                @csrf
+                                                @method('PATCH')
                                                     
-                                                    <input type="text" name="name" id="name" class="form-control border-0 text-center "  value="{{ $category->name }}" aria-describedby="nameHelper">
+                                                <input type="text" name="name" id="name" class="form-control border-0 text-center "  value="{{ $category->name }}" aria-describedby="nameHelper">
 
 
-                                                </form>
+                                            </form>
+                                            {{-- /.input --}}
                                             <div class="actions d-flex justify-conten-center">
                                                 @if ($category->posts()->count() > 0)
                                                     <a  class="mr-auto text-decoration-none text-dark"  href="{{ route('categories.posts', $category->slug) }}">
@@ -52,13 +52,14 @@
                                                 @else
                                                     <div class="badge rounded-pill bg-warning d-flex justify-content-center align-items-center mr-auto" style="width:30px; height:30px">{{ $category->posts()->count() }}</div>
                                                 @endif
-                                                <form action="{{ route('admin.categories.destroy', $category->id) }}" method="post">
+                                                <form action="{{route('admin.categories.destroy', $category->slug)}}" method="post">
                                                     @csrf
                                                     @method('DELETE')
 
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash" ></i></button>
-                                                </form>
+                                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                </form>                                           
                                             </div>
+                                            {{-- /.actions --}}
                                         </div>
                                     </div>
                                 </div>
