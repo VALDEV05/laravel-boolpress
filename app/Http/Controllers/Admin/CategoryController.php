@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     /**
@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        // Form aggiunto all'interno di admin.categories.index
     }
 
     /**
@@ -37,7 +37,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //ddd($request->all());
+
+        //validazione
+        $validate = $request->validate([
+            'name'=> 'required'
+        ]);
+
+        //creazione slug
+        $validate['slug']= Str::slug($validate['name']);
+
+        //ddd
+        //ddd($request->all(), $validate);
+
+        //salvataggio
+        Category::create($validate);
+        //return
+        return redirect()->route('admin.categories.index');
     }
 
     /**

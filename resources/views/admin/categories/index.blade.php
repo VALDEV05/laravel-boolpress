@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <h1 class="text-center my-5"><i class="fas fa-code-branch fa-lg fa-fw"></i> Add a new category <i class="fas fa-code-branch fa-lg fa-fw"></i></h1>
-        <div class="row flex-column">
+        <div class="row flex-column mb-5">
             <div class="col-12">
                 {{-- form per la creazione di nuove categorie --}}
                 <form action="{{route('admin.categories.store') }}" method="post">
