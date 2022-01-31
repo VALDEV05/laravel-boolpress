@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminCategoryController as AdminAdminCategoryController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\CategoryController;
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -36,7 +34,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     /* Route Posts */
     Route::resource('posts', PostController::class);
     /* Route Categories */
-    Route::get('admin/categories/index', 'Admin\CategoryController@index')->name('admin.categories.index');
+    /* Route::get('admin/categories/index', 'Admin\CategoryController@index')->name('admin.categories.index'); */
+    Route::resource('categories', CategoryController::class);
+
 });
 
 
