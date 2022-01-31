@@ -597,6 +597,8 @@ Auth::routes(['register' => false]);
 
 
 # Relazione Posts tags
+La relazione con i tags funziona in modo che diversi post appartengono a dei tag e diversi post possono appartenere a diversi tags
+Relazione many to many
 
 
 
