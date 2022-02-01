@@ -71,6 +71,10 @@
                                     <i class="fas fa-code-branch fa-lg fa-fw"></i>
                                     Categories
                                 </a>
+                                <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('admin.tags.index')}}">
+                                    <i class="fas fa-thumbtack fa-lg fa-fw" ></i>
+                                    Tags
+                                </a>
                             </li>
                         </ul>
 
