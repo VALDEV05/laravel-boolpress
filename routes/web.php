@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -42,3 +42,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
 
 /* route to show all categories  */
 Route::get('categories/{category:slug}/posts', 'CategoryController@posts')->name('categories.posts');
+
+/* route to show all tags */
+
+Route::get('tags/{tag:slug}/posts', 'TagController@posts')->name('tags.posts');

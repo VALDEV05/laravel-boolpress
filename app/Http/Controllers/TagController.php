@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+     /**
+     * Show all posts associated with a category
+     */
+
+    public function posts(Tag $tag)
+    {
+       $posts = $tag->posts()->orderByDesc('id')->paginate(12);
+       return view('guest.tags.posts', compact('posts', 'tag'));
+    }
+
     /**
      * Display a listing of the resource.
      *

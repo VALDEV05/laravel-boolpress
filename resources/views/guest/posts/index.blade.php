@@ -29,10 +29,23 @@
                             Categories
                         </h3>
 
+                        @foreach($categories as $category)
+                        <li>
+                            <a href="{{route('categories.posts', $category->slug )}}">{{$category->name}}</a>
+                        </li>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h3>
+                            Tags
+                        </h3>
+
                         <ul>
-                            @foreach($categories as $category)
+                            @foreach($tags as $tag)
                             <li>
-                                <a href="{{ route('categories.posts', $category->slug) }}">{{$category->name}}</a>
+                                <a href="{{ route('tags.posts', $tag->slug) }}">{{ $tag->name }}</a>
                             </li>
                             @endforeach
                         </ul>
