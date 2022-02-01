@@ -901,6 +901,14 @@ lo facciamo in questo modo: sudo chmod -R ug+rwx <nomeCartella>
 Basterà aggiungere la cartella nella storage/app/public
 
 
+## Modifica per continuare il lavoro
+
+Ho sbloccato le registrazioni 
+
+Dato che ho fatto il ``php artisan migrate:fresh --seed`` -> dovrò reimpostare tutti i post all'user_id 1 per visualizzarli 
+entro in tinker -> mi salvo tutti i post in una variabile posts (``$posts = Post::all();``) successivamente mi prendo lo user a cui voglio assegnare tutto nel mio caso, ovvero voglio prendere il primo utente loggato (``$admin = User::first()``) ora devo assegnare tutti i post ad admin (``$admin->posts()->saveMany($posts)``)
+
+
 
 
 # AGGIUNTA EMAIL

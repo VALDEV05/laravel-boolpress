@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::resource('posts', PostController::class)->only(['index', 'show']);
 
 
-Auth::routes(['register' => false]);
+Auth::routes();
 
 
 
