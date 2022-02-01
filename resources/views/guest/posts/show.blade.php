@@ -23,7 +23,16 @@
                     
                     <hr class="my-2">
                     <p>More info</p>
-                    <p class="lead">
+                    <div class="tags">
+                        Tags:
+                        @forelse($post->tags as $tag)
+                            <a href="{{route('tags.posts', $tag->slug)}}">{{$tag->name}}</a>
+                        @empty
+                            <span>Untagged</span>
+                        @endforelse
+
+                    </div>
+                                <p class="lead">
                         <a class="btn btn-success btn-lg" href="{{ route('posts.index') }}" role="button"><i class="fa fa-backward fa-lg fa-fw" ></i></a>
                     </p>
                 </div>
