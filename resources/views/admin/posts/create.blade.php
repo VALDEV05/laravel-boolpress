@@ -8,7 +8,7 @@
             <h1 class="text-center"><i class="fas fa-pencil-alt fa-lg fa-fw"></i> Create a new post <i class="fas fa-pencil-alt fa-lg fa-fw"></i></h1>
         </div>
         <div id="form" class="w-75 m-auto">
-            <form action="{{ route('admin.posts.store') }}" method="post">
+            <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
 

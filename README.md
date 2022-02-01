@@ -829,4 +829,12 @@ Validazione:
                 $post->tags()->sync($request->tags);
             }``
 
+
 # Aggiungere delle risorse dall'utente (File/Foto)
+
+Dato che l'applicazione quando sarà online si avrà accesso solo alla cartella public allora dovremo far in modo di indirizzare l'utente ad una porzione della nostra applicazione nella quale sono presenti le immagini abbiamo accesso a un filesystem che ci permette di salvare i file all'interno di quella porzione oveero storage.app.public e li saranno accessibili dall'utente ma serve un link per collegarla in public.
+
+Primo step è quello di accedere all'interno config/filesystem.php e modificare il tipo di driver nella riga 16 modifichiamo da 'local' -> 'public' riavviamo artisan serve
+Successivamente dovremo creare il link simbolico tra la public/storage e la cartella storage/app/public eseguendo il comando ```php artisan storage:link```
+
+All'interno di public avremo il collegamento NON UNA CARTELLA!!
