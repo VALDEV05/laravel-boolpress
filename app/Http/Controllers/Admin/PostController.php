@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
@@ -32,7 +33,8 @@ class PostController extends Controller
     public function create() 
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -43,13 +45,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        //ddd($request->all());
         //Validare dati
          $validate = $request->validate([
             'title'=> 'required',
             'cover'=> 'required',
             'sub_title'=> 'required',
             'body'=> 'required',
-            'category' => 'nullable | exists:categories,id',
+            'category' => ['nullable', 'exists:categories,id'],
         ]);
 
         //creazione slug
@@ -58,10 +61,14 @@ class PostController extends Controller
         //creazione user_id
         $validate['user_id'] = Auth::id();
 
-
         //salvare dati
-        Post::create($validate);
-
+        $post = Post::create($validate);
+        if ($request->has('tags')) {
+            $request->validate([
+                'tags' => ['nullable', 'exists:tags,id']
+            ]);
+            $post->tags()->attach($request->tags);
+        }
         //redirect
         return redirect()->route('admin.posts.index')->with('message',' Hai creato un nuovo post'); 
     }
