@@ -18,7 +18,7 @@
                         </div>
                     </div>
 
-                    <img width="1000px" src="{{ $post->cover }}" alt="">
+                    <img width="1000px" src="{{ asset('storage/' . $post->cover) }}" alt="">
                     <p class="lead mt-4">{{ $post->body }}</p>
                     
                     <hr class="my-2">

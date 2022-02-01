@@ -869,3 +869,21 @@ Modifica della validazione
     Devo aggiungere il percorso dell'immagine ai dati validati
         ``//passo il percorso immagine ai dati validati
             $validate['cover'] = $cover_path; ``
+
+
+# modifico anche l'edit
+
+dato che sto modificando, ci dobbiamo ricordare di eliminare l'immagine precedente.  //cancellazione percorso immagine precedente
+                Storage::delete($post->cover);
+
+Completata la validazione devo camviare il percorso delle immagini
+parto dallo show  src="{{ asset('storage/' . $post->cover) }}"
+e cosi via per tutte le altre page dove ci sono le immagini in questo modo però vedremo solo queste aggiunte, dovremo modificare il seeder e far scaricare le immagini nella cartella.
+
+
+
+Modifica al seeder  
+
+$post->cover = 'placeholders/' . $faker->image('public/storage/placeholders',1200,480,'Posts', false, true, $post->title);
+
+il false serve a non far salvare tutto il percorso ma solo il nome dell'immagine, e dato che abbiamo salvato solo il nom e dovremo concatenare la cartella corrispondente dove cercare tutto 'placeholders/'

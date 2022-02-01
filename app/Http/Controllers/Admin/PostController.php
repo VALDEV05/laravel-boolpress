@@ -55,11 +55,14 @@ class PostController extends Controller
             'body'=> ['required'],
             'category' => ['nullable', 'exists:categories,id'],
         ]);
-        //creazione percorso immagine
-        $cover_path = Storage::put('post_images', $request->file('cover'));
+        if ($request->file('cover')) {
 
-        //passo il percorso immagine ai dati validati
-        $validate['cover'] = $cover_path; 
+            //creazione percorso immagine
+            $cover_path = Storage::put('post_images', $request->file('cover'));
+    
+            //passo il percorso immagine ai dati validati
+            $validate['cover'] = $cover_path; 
+        }
 
         //creazione slug
         $validate['slug'] = Str::slug($validate['title']);
@@ -110,11 +113,23 @@ class PostController extends Controller
              //Validare dati
             $validate = $request->validate([
                 'title' => ['required',Rule::unique('posts')->ignore($post->id)],
-                'cover' => ['required'],
+                'cover' => ['required', 'image', 'max:500'],
                 'sub_title' => ['required'],
                 'body' => ['required'],
                 'category_id' => 'nullable|exists:categories,id',
             ]);
+
+            if ($request->file('cover')) {
+                //cancellazione percorso immagine precedente
+                Storage::delete($post->cover);
+                
+                //creazione percorso immagine
+                $cover_path = Storage::put('post_images', $request->file('cover'));
+        
+                //passo il percorso immagine ai dati validati
+                $validate['cover'] = $cover_path; 
+            }
+
 
             //creazione slug
             $validate['slug']= Str::slug($validate['title']);

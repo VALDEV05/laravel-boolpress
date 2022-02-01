@@ -6,7 +6,7 @@
             <h1 class="text-center">Edit your post {{ $post->title }}</h1>
         </div>
             <div id="form" class="w-75">
-                <form action="{{ route('admin.posts.update', $post->slug) }}" method="post">
+                <form action="{{ route('admin.posts.update', $post->slug) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -24,10 +24,17 @@
                     </div>
 
                         
-                    <div class="mb-3">
-                        <label for="cover" class="form-label d-flex justify-content-center">Cover</label>
-                        <input type="text" name="cover" id="cover" class="form-control" placeholder="Type Here" value="{{ $post->cover }}">
-                        <small id="cover" class="text-muted d-flex justify-content-center pt-1">Tipe here your cover | MAX : 200</small>
+                    <div class="mb-3 d-flex">
+                        <div class="row w-100">
+                            <div class="col-3">
+                                <img src="{{ asset('storage/' . $post->cover) }}" alt="">
+                            </div>
+                            <div class="col-9 d-flex flex-column align-items-center justify-content-center">
+                                <label for="cover" class="form-label d-flex justify-content-center">Chage Cover Image</label>
+                                <input type="file" name="cover" id="cover" class="form-control" placeholder="Type Here">
+                                <small id="cover" class="text-muted d-flex justify-content-center pt-1">Select your file | MAX : 500</small>
+                            </div>
+                        </div>
                     </div>
 
 
