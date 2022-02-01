@@ -28,8 +28,8 @@
                 
                 <div class="mb-3">
                   <label for="cover" class="form-label d-flex justify-content-center">Cover</label>
-                  <input type="text" name="cover" id="cover" class="form-control" placeholder="Type Here" value="{{ old('cover') }}">
-                  <small id="cover" class="text-muted d-flex justify-content-center pt-1">Tipe here your cover | MAX : 200</small>
+                  <input type="file" name="cover" id="cover" class="form-control" placeholder="Type Here" accept="images/*">
+                  <small id="cover" class="text-muted d-flex justify-content-center pt-1">Tipe here your cover | MAX : 500</small>
                 </div>
 
 

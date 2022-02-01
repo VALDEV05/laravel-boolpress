@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
 class PostController extends Controller
@@ -48,15 +49,20 @@ class PostController extends Controller
         //ddd($request->all());
         //Validare dati
          $validate = $request->validate([
-            'title'=> 'required',
-            'cover'=> 'required',
-            'sub_title'=> 'required',
-            'body'=> 'required',
+            'title'=>[ 'required', 'unique:posts', 'max:200'],
+            'cover'=> ['required', 'image', 'max:200'],
+            'sub_title'=> ['required'],
+            'body'=> ['required'],
             'category' => ['nullable', 'exists:categories,id'],
         ]);
+        //creazione percorso immagine
+        $cover_path = Storage::put('post_images', $request->file('cover'));
+
+        //passo il percorso immagine ai dati validati
+        $validate['cover'] = $cover_path; 
 
         //creazione slug
-        $validate['slug']= Str::slug($validate['title']);
+        $validate['slug'] = Str::slug($validate['title']);
 
         //creazione user_id
         $validate['user_id'] = Auth::id();

@@ -838,3 +838,11 @@ Primo step è quello di accedere all'interno config/filesystem.php e modificare 
 Successivamente dovremo creare il link simbolico tra la public/storage e la cartella storage/app/public eseguendo il comando ```php artisan storage:link```
 
 All'interno di public avremo il collegamento NON UNA CARTELLA!!
+
+
+
+Ora dobbiamo modificare il form di create, per far accettare dei file
+
+al form nella sezione cover basterà cambiare il type da text a file. 
+
+Per far si che il form accetti dei file dovremo aggiungere dopo il metodo l'attribituo **enctype** *enctype="multipart/form-data"*
