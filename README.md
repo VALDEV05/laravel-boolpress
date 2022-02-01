@@ -846,3 +846,26 @@ Ora dobbiamo modificare il form di create, per far accettare dei file
 al form nella sezione cover basterà cambiare il type da text a file. 
 
 Per far si che il form accetti dei file dovremo aggiungere dopo il metodo l'attribituo **enctype** *enctype="multipart/form-data"*
+
+In questo modo alla backend non verrrà trasmesso solamente il nome del file, ma anche tutta una serie di dati importanti del file
+
+Possiamo aggiungere un primo filtro per i file accettati impostando all'interno dell'input accept="images/*" ovvero che accetta tutti le tipologie di immagini (.svg,.png,.jpg)
+
+togliere <!-- value="{{ old('cover') }}" --> dato che violerebbe la sicurezza dell'utente in quanto ricorrerebbe ad un vecchio path di immagini. ma prorpio il type="file" non permetterebbe ciò.
+
+
+Modifica della validazione
+    All'interno di Admin/PostController @store modifico la validazione 
+    ``'cover'=> ['required'],``-->    
+    ```'cover'=> ['required', 'image', 'max:200'],```
+
+    Devo creare il percorso dell'imagine
+    
+    ``$cover_path = Storage::put('post_images', $request->file('cover'));``
+    verifico che la classe storage sia importata correttamente 
+    
+        `use Illuminate\Support\Facades\Storage;`
+    
+    Devo aggiungere il percorso dell'immagine ai dati validati
+        ``//passo il percorso immagine ai dati validati
+            $validate['cover'] = $cover_path; ``
