@@ -559,10 +559,6 @@ nel PostController e verifichiamo quale utente è autenticato e prendo i post re
 
 ```$posts = Auth::user()->posts()->orderByDesc('id')->paginate(10);```
 
-
-Il metodo create non ha bisogno di modifiche, in quanto chiunque sia loggato dovrà avere la possibilità di creare nuovi records
-
-
 Allo stesso modo dobbiamo aggiungere il controllo per il metodo store.
 
 ### Metodo @store
@@ -597,94 +593,219 @@ Auth::routes(['register' => false]);
 
 
 # Relazione Posts tags
-La relazione con i tags funziona in modo che diversi post appartengono a dei tag e diversi post possono appartenere a diversi tags
-Relazione many to many
+La relazione in questione sarà una many to many, ovvero sappiamo che ogni post può avere molti tag e un tag può essere associato a diversi posts. Nella relazione many to many sappiamo che non esiste la chiave esterna, ma una tabella pivot
+metodo belongstoMany a tutti e due i modelli
+Esempio: 
+	nel modello User inseriamo una funzione roles() per identificare una relazione con il modello Role(). IN quanto un utente può avere diversi 	ruoli.
+	All'inverso nel modello Role inseriamo una funzione users() in cui restituiamo la stessa relazione con il modello User. Dato che un utente può 	avere diversi ruoli
+Creazione della tabella ponte
+	  esiste una convenzione ovvero si uniscono le tabelle in ordine analfabetico al singolare 
+	  ``php artisan make:migration create_role_user_table``
+	  all'interno della migrazione dobbiamo impostare: 
+	  	```$table-›unsignedBigInteger('user id') :
+			$table-›foreign ('user id')-›references ('id') -›on ('users");
+			
+			$table-›unsignedBigInteger('roleid'):
+			$table-›foreign('role id') -›references ('id') -›on ('roles"):```
+Per scirivere all'intrno della tabella pivot possiamo utilizzare il metodo attach() per eliminare quei recors usiamo il metodo detatch
+Per aggiungere ed eliminare contemporaneamente dei record all’interno della tabella pivot possiamo utilizzare il metodo sync()
+
+la funzione sync() accetta come parametro un array di id da inserire all'interno della tabella ponte gli id già presenti nella tabella ponte e che non si trovano nell'array verranno rimossi, insomma tipo update.
 
 
+# Iniziamo 
+## Relazione tra posts e tags | Many to Many
+Aggiungendo la relazione al modello Post 
+
+importiamo tramite snippet relazione belongsToMany
+``/**
+     * The tags that belong to the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+``
+
+Verifichiamo che sia importata a inizio pagina correttamente
+``use Illuminate\Database\Eloquent\Relations\BelongsToMany;``
 
 
-# Aggiungere delle risorse dall'utente (File/Foto)
-[Documentazione](https://laravel.com/docs/7.x/filesystem)
+Creazione del modello tag
 
-CMS -> Content management system 
-
-Configurare il file system -> config cambiare da local a public riga 16 local->public
-
-Stoppa e riavvia il terminale e va connessa la cartella locale con la cartella public -> ``php artisan storage:link``
+``php artisan make:model -a Models/Tag``
 
 
-Creare un form che ha la possibilità di far accedere l'utente ad una selezione di immagine
-
-
-agiungo al form ``enctype= multipart/form-data``
-
-
-e aggiungiamo al metodo @store `$img_path = Storage::put('uploads', $data['image']);` questo genera un percorso file con un nome fittizzio esadecimale per evitare conflitti
- 
-All'interno del form in input possiamo filtrare i tipi di file che vengono accettati con ``accept=".jpg,.png"`` oppure ``accept="images/*"``
-
-
-Nelle validazione dei dati aggiungiamo ``'cover' => ['nullable', 'image', 'max:100'];`` (100 kb)
-``$cover_path = Storage::put('cover_images', $request->file('cover'));`` ovvero prendi il file tramite la richiesta e restituiscimi un percorso file
-In questo momento avremo una cartella all'interno di public/storage, li dovrebbbe essere 
-``$validate['cover'] = $cover_path`` in questo caso ogni volta che salviamo ci crea una copia di esso 
-
-
- 
-
-
-Il percorso delle immagine 'show' sarà: `` src="{{ asset('storag/') . $post->cover }}" ``faremo una concatenazione tra l'inizio del path e aggiungere la risorsa presa dal db.
-
-
-Ora avremo che nell'index non vediamo nessuna nuova quindi però se ora aggiornassimo l'src come nello show la concatenazione avremo che si vedranno solo le immagini gia salvate nel db
-
-Nel PostController verifichiamo
-`` if(Srequest-›file('cover")){
-	$cover path = $request->file('cover)->store('img_path') ;
-	$validated('cover']= $cover_path
-	}``
-[Documentazione](https://laravel.com/docs/7.x/filesystem#storing-files)
-
-# RICORDATI DI AGGIUNGERE enctype="multipart/form-data" -> GOOGLALO
-### Modifichiamo per l'edit
+stesso passaggio per il modello tag
+```/**
+     * The posts that belong to the Tag
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class);
+    }
 ```
-<div class="row">
-	‹div class="col">
-		<img src="({asset ('storage/') . Spost-›cover)" alt-"",
-	</div>
-	<div class="col">
-		<label for="cover" class="form-label" ›Change Cover Image</label>
-		<input type="file" name="cover" id="cover" class="form-control @error ('cover') is_invalid @enderror" placeholder="https: //" aria-describedby= "coverHelper" accept=". jpg, .png">
-		‹small id="coverHelper" class="text-muted"›Update your post cover image here, only jpg and png accepted Max: 500kb</small>
-	</div>
-</div>
-```
-
-Dato che ogni voltsa che salviamo, si crea un nuovo records, quindi dobbiamo cancellare l'immagine che stiamo sostituendo.
-
-all'intero della verifica dell'@update(la stessa del @store)
-``Storage::delete($post->cover);``
-
-Ovviamente dobbiamo anche passare il dato alla validazione
-
-
-Se hai problemi di validazione prova a modificare nel controller  		``'cover' => ['nullable', 'mines:jpg,bmp,png', 'max:100'];``
-
-Due possibili errori o manca il mime:type validazione o image o mime:type
-
-### risolvere error image mancanti
-
-Ora avremo che nell'index non vediamo nessuna nuova quindi però se ora aggiornassimo l'src come nello show la concatenazione avremo che si vedranno solo le immagini gia salvate nel db
-In questo caso va modificato il seeder dobbiamo aggiungere un placeholder di default
-
-``$post->cover = $faker->image('public/storage/placeholders/',1200, 480, 'Posts', false, true, $post->title);`` in questo modo però avremo un problema con il path
-``$post->cover = 'placeholders/' . $faker->image('public/storage/placeholders/',1200, 480, 'Posts', false, true, $post->title);``
-
-Dopo dovremo riseeddare -> `` php artisan migrate:fresh --seed ``
+Verifichiamo che sia importata a inizio pagina correttamente
+``use Illuminate\Database\Eloquent\Relations\BelongsToMany;``
 
 
 
+definizione della migrazione e del seeder
+Migrazione:
+	``	$table->id();
+      	$table->string('name');
+      	$table->string('slug');
+      	$table->timestamps();``
+ Simile categoria
+ 
+creazione seed
+``$tags = [
+            'community', 
+            'fullstack',
+            'developer',
+            'webDevelopment',
+            'laravel'
+        ];
+        foreach ($tags as $tag) {
+            $_tag = new Tag;
+            $_tag->name = $tag;
+            $_tag->slug = Str::slug($_tag->name);
+            $_tag->save();
+        }
+``
+ricordati di importare il modello tag e la classe Str
+``use App\Models\Tag;
+use Illuminate\Support\Str;
+``
+
+Migriamo e seediamo
+``php artisan migrate``
+``php artisan db:seed --class=TagSeeder``
+
+Aggiungiamo la tabella pivot
+
+``php artisan make:migration create_post_tag_table``
+
+Alla tabella pivot assegniamo i solidi record tramite unsignedBigInteger
+ ```$table->unsignedBigInteger('post_id')->nullable();
+    $table->unsignedBigInteger('tag_id')->nullable();```
+
+e impostiamo anche la relazione della chiave esterna
+```$table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
+  	$table->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete();```
+In questo modo sto dicendo che la relazione viene cancellata se il tag o il post vengono eliminati.
 
 
+Ora migriamo 
+``php artisan migrate``
 
 
+Andimao ad implementare la crud
+Aggiungiamo nel admin.posts.create il multiple select
+```<div class="mb-3">
+                  <label for="tags" class="form-label">Tags</label>
+                  <select multiple class="form-select" name="tags[]" id="tags">
+                    <option disabled> Select all tags</option>
+                    @foreach ($tags as $tag)
+                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                ```
+                
+ Entriamo nel PostController e aggiungiamo al @create i tags ``  $tags = Tag::all();`` e passiamoli con compact
+ 
+ Assiucrati che siano importato i modelli
+ 
+ 
+ Dato che possono esserci diversi tags verifica che all'interno  del form select nel nome aggiungi il simbolo dell'array in questo modo name="tags[]"
+
+
+Verifichiamo e validiamo 
+$post = Post::create($validate);
+e poi aggiungiamo i tags se esistono
+
+``if ($request->has('tags')) {
+            $request->validate([
+                'tags' => ['nullable', 'exists:tags,id']
+            ]);
+            $post->tags()->attach($request->tags);
+        }``
+
+# aggiungiamo la lista dei tags nella sidebar del guest.posts.index
+
+``<div class="card mb-2">
+                    <div class="card-body">
+                        <h3>
+                            Tags
+                        </h3>
+                        <ul>
+                            @foreach($tags as $tag)
+                            <li>
+                                <a href="#">{{$tag->name}}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+ </div>``
+
+Passiamo i tags al PostController guest ` $tags = Tag::all();` e poi tramite compact li passo.
+
+
+Creazione della rotta
+``/* route to show all tags */
+Route::get('tags/{tag:slug}/posts', 'TagController@posts')->name('tags.posts');``
+
+
+Passiamo lo slug al modello tag
+``/**
+     * Get the route key for the model
+     * 
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }``
+Entriamo nel TagController e aggiungiamo metodo @posts ed aggiungiamo la rotta all'index
+
+creo metodo @posts
+`` /**
+     * Show all posts associated with a category
+     */
+    public function posts(Tag $tag)
+    {
+       $posts = $tag->posts()->orderByDesc('id')->paginate(12);
+       return view('guest.tags.posts', compact('posts', 'tags'));
+    }``
+creo la view copiamo e incolliamo la categories.posts e modifichiamo a piacimento
+
+
+# Completo la crud 
+aggiungo nel layouts.admin il link per la page Tags, mi creo il controller 
+``php artisan make:controller Admin/TagController -rm Models\Tag``
+
+mi creo le rotte di tipo resource
+``Route::resource('tags', TagController::class);``
+
+modifico la rotta nel link dei tags ``{{ route('admin.tags.index) }}``
+
+nel @index faccio un return della view
+
+``return view ('admin.tags.index');``
+
+Gli passo i tags con il compact
+
+metodo create
+	non esiste in quanto il form è all'interno di index
+metodo store
+	creato il form fatto puntare a questo metodo implementiamo la validazione dei dati
+	implementiamo le fillable properties
+metodo edit
+	dopo aver aggiungto il form implentiamo la validazione
+metodo destroy
+	implementato anche il metodo destroy

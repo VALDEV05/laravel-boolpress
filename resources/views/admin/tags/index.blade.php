@@ -53,6 +53,12 @@
                                                     <div class="badge rounded-pill bg-warning d-flex justify-content-center align-items-center mr-auto" style="width:30px; height:30px">{{ $tag->posts()->count() }}</div>
                                                     
                                             @endif
+                                            <form action="{{ route('admin.tags.destroy', $tag->slug) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
