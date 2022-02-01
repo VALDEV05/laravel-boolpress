@@ -899,3 +899,8 @@ se per caso hai come errore qualcosa del genere devi sbloccare i permessi della 
 lo facciamo in questo modo: sudo chmod -R ug+rwx <nomeCartella>
 
 Basterà aggiungere la cartella nella storage/app/public
+
+
+
+
+# AGGIUNTA EMAIL
