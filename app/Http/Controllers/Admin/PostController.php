@@ -84,7 +84,8 @@ class PostController extends Controller
     {
         if (Auth::id() == $post->user_id) {
             $categories = Category::all();
-            return view ('admin.posts.edit', compact('post', 'categories'));
+            $tags = Tag::all();
+            return view ('admin.posts.edit', compact('post', 'categories', 'tags'));
         }else{
             abort(403);
         }
@@ -115,6 +116,12 @@ class PostController extends Controller
             //salvare dati
             $post->update($validate);
             
+            if ($request->has('tags')) {
+                $request->validate([
+                    'tags' => ['nullable', 'exists:tags,id']
+                ]);
+                $post->tags()->sync($request->tags);
+            }
             //redirect
             return redirect()->route('admin.posts.index')->with('message',' Hai modificato un nuovo post');
         }else{

@@ -49,6 +49,16 @@
                         </select>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="tags" class="form-label d-flex justify-content-center">Tags</label>
+                        <select multiple class="form-select w-100 d-flex justify-content-center"  name="tags[]" id="tags">
+                            <option disabled> Select all tags</option>
+                            @foreach ($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
 
                     <div class="actions d-flex justify-content-around align-items-center">
                         <div class="btn-group-mia d-flex flex-column">
