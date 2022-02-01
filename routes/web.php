@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::resource('posts', PostController::class)->only(['index', 'show']);
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 
 
