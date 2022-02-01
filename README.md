@@ -809,3 +809,24 @@ metodo edit
 	dopo aver aggiungto il form implentiamo la validazione
 metodo destroy
 	implementato anche il metodo destroy
+
+# Aggiunta nell'edit la possibilità di aggiungere i tags
+Aggiungo il form multiplo, valido i dati
+``<div class="mb-3">
+                  <label for="tags" class="form-label d-flex justify-content-center">Tags</label>
+                  <select multiple class="form-select w-100 d-flex justify-content-center"  name="tags[]" id="tags">
+                    <option disabled> Select all tags</option>
+                    @foreach ($tags as $tag)
+                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    @endforeach
+                  </select>
+                </div>``
+Validazione:
+	``if ($request->has('tags')) {
+                $request->validate([
+                    'tags' => ['nullable', 'exists:tags,id']
+                ]);
+                $post->tags()->sync($request->tags);
+            }``
+
+# Aggiungere delle risorse dall'utente (File/Foto)
