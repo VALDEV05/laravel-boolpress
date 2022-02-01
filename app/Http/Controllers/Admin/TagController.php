@@ -43,16 +43,6 @@ class TagController extends Controller
         return redirect()->route('admin.tags.index')->with('message', '🥳 Complimenti hai implementato una nuovo tag');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tag  $tag
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tag $tag)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -74,7 +64,21 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        //validazione
+        $validate = $request->validate([
+            'name'=> 'required'
+        ]);
+
+        //creazione slug
+        $validate['slug']= Str::slug($validate['name']);
+
+        //ddd
+        //ddd($request->all(), $validate);
+
+        //salvataggio
+        $tag->update($validate);
+        //return
+        return redirect()->route('admin.tags.index')->with('message', '🥳 Complimenti hai modificato una nuovo tag');;
     }
 
     /**

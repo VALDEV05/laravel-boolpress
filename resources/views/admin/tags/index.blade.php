@@ -37,7 +37,23 @@
                             <div class="col-3 d-flex justify-content-center">
                                 <div class="card w-100 mt-2">
                                     <div class="card-body">
-                                        <h1>{{ $tag->name }}</h1>
+                                        <form action="{{ route('admin.tags.update', $tag->slug) }}" method="post">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="text" name="name" id="name" class="form-control border-0 text-center "  value="{{ $tag->name }}" aria-describedby="nameHelper">
+                                        </form>
+                                        <div class="actions d-flex justify-content-center">
+                                            @if ($tag->posts()->count() > 0)
+                                                    <a  class="mr-auto text-decoration-none text-dark"  href="{{ route('tags.posts', $tag->slug) }}">
+                                                        <div class="badge rounded-pill bg-success d-flex justify-content-center align-items-center " style="width:30px; height:30px">
+                                                            {{ $tag->posts()->count() }}
+                                                        </div>
+                                                    </a>
+                                             @else
+                                                    <div class="badge rounded-pill bg-warning d-flex justify-content-center align-items-center mr-auto" style="width:30px; height:30px">{{ $tag->posts()->count() }}</div>
+                                                    
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
