@@ -42,7 +42,7 @@
                             </p>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-phone-alt  fa-lg fa-fw "></i></a>
+                            <a class="nav-link" href="{{ route('guest.contacts') }}"><i class="fas fa-phone-alt  fa-lg fa-fw "></i></a>
                             <p class="mb-0">
                                 contacts
                             </p>

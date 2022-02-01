@@ -912,3 +912,20 @@ entro in tinker -> mi salvo tutti i post in una variabile posts (``$posts = Post
 
 
 # AGGIUNTA EMAIL
+
+
+impariamo a inviare una email tramite laravel --> [Documentazione reltiva](https://laravel.com/docs/7.x/mail#configuration)
+
+
+Esistono diversi driver che gestiscono le email, quello classico e locale ovvero un driver che intercetta tutte le email su un file di log in locale ('storage/logs/laravel.log'). Oppure il driver 'smtp' che gestisce tutte le email tramite servizi esterni. Come Gmail, Mail trap e molti altri.
+
+
+
+Qualsiasi driver venga usato i passaggi successivi saranno gli stessi.
+# Generiamo la Mail
+    - Creiamo un oggetto MAILABLE che rappresenta il messaggio che vogliamo inviare
+        ``php artisan make:mail <nomeOggettoMailable>``
+        - Questo comando ci creerà una classe che estenderà Mailable e ci creerà un costruct e una funzione build dove restituiremo la view.
+        Il construct serve per passare dei dati alla mail.
+    -Dopo aver costruito tutta l'email passiamo all'invio della mail tramite un controller attraverso l'utilizzo della facade Mail dove possiamo specificare a chi inviare l'email e soprattutto il contenuto di essa. 
+    RICORDIAMO DI IMPORTARE CORRETTAMENTE SIA L'OGGETTO MAIL CHE LA FACADE MAIL
