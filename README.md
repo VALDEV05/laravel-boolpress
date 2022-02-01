@@ -887,3 +887,15 @@ Modifica al seeder
 $post->cover = 'placeholders/' . $faker->image('public/storage/placeholders',1200,480,'Posts', false, true, $post->title);
 
 il false serve a non far salvare tutto il percorso ma solo il nome dell'immagine, e dato che abbiamo salvato solo il nom e dovremo concatenare la cartella corrispondente dove cercare tutto 'placeholders/'
+
+migriamo e seediamo insiema
+
+``php artisan migrate:fresh --seed``
+
+
+se per caso hai come errore qualcosa del genere devi sbloccare i permessi della cartella storage
+    Cannot write to directory "public/storage/placeholders" 
+
+lo facciamo in questo modo: sudo chmod -R ug+rwx <nomeCartella>
+
+Basterà aggiungere la cartella nella storage/app/public
