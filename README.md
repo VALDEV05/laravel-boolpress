@@ -898,7 +898,10 @@ se per caso hai come errore qualcosa del genere devi sbloccare i permessi della 
 
 lo facciamo in questo modo: sudo chmod -R ug+rwx <nomeCartella>
 
-Basterà aggiungere la cartella nella storage/app/public
+Basterà aggiungere la cartella nella storage/app/publix
+
+```
+
 
 
 ## Modifica per continuare il lavoro
@@ -907,9 +910,6 @@ Ho sbloccato le registrazioni
 
 Dato che ho fatto il ``php artisan migrate:fresh --seed`` -> dovrò reimpostare tutti i post all'user_id 1 per visualizzarli 
 entro in tinker -> mi salvo tutti i post in una variabile posts (``$posts = Post::all();``) successivamente mi prendo lo user a cui voglio assegnare tutto nel mio caso, ovvero voglio prendere il primo utente loggato (``$admin = User::first()``) ora devo assegnare tutti i post ad admin (``$admin->posts()->saveMany($posts)``)
-
-
-
 
 # AGGIUNTA EMAIL
 
@@ -929,3 +929,170 @@ Qualsiasi driver venga usato i passaggi successivi saranno gli stessi.
         Il construct serve per passare dei dati alla mail.
     -Dopo aver costruito tutta l'email passiamo all'invio della mail tramite un controller attraverso l'utilizzo della facade Mail dove possiamo specificare a chi inviare l'email e soprattutto il contenuto di essa. 
     RICORDIAMO DI IMPORTARE CORRETTAMENTE SIA L'OGGETTO MAIL CHE LA FACADE MAIL
+    
+   
+# Primi step
+
+*Obiettivo Creare una pagina contatti con all'interno un form dove aggiungere e scrivere l'email.*
+
+
+Creo una rotta all'interno del file web.php
+``Route::get('contacts', 'PageController@contacts')->name('guest.contacts');``
+
+Creo il controller
+``php artisan make:controller PageController``
+
+Creo il metodo contacts che mi restituisce la view
+``
+	public function contacts()
+    {
+        return view('guest.contacts.form');
+    }
+``
+
+Creo la view form
+
+Modifico il layout.app
+	   <a class="nav-link" href="{{ route('guest.contacts') }}"><i class="fas fa-phone-alt  fa-lg fa-fw "></i></a>
+    
+creo il form
+
+	``@extends('layouts.app
+	@section('content')
+    <div class="p-5 bg-light">
+        <div class="container">
+            <h2 class="text-center display-3"><i class="fa fa-phone-alt fa-lg fa-fw"></i> Contacts <i class="fa fa-phone-alt fa-lg fa-fw"></i></h2>
+            <p class="text-center text-uppercase text-muted lead">we will help you if you need</p>
+        </div>
+        <div class="container">
+            <form action=" " method="post">
+                @csrf
+
+                <div class="mb-4 w-75 m-auto">
+                    <div class="row">
+                        <div class="col">
+                            <label for="name" class="form-label d-flex justify-content-center">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Mario Rossi" aria-describedby="nameId" minlength="4" maxlength="50">
+                            <small id="NameId" class="text-muted d-flex justify-content-center">Type your name | max:50</small>
+                        </div>
+                        <div class="col">
+                            <label for="email" class="form-label d-flex justify-content-center">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="mariorossi@exaple.com" aria-describedby="emailId" required>
+                            <small id="emailId" class="text-muted d-flex justify-content-center">Type your email</small>
+                        </div>
+                       
+                    </div>
+                    
+                </div>
+                <div class="mb-3 w-75 m-auto">
+                    <label for="body" class="form-label d-flex justify-content-center">Type your message</label>
+                    <textarea class="form-control" name="body" id="body" rows="5" placeholder="Type youre message"></textarea>
+                </div>
+                <div class="send d-flex justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary w-25 text-uppercase py-3">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>``
+    
+Creo il metodo che gestisce la rotta come se fosse un form per un metodo post
+
+
+- Mi creo la rotta
+	``/* route to send the form */
+	Route::post('contacts', 'PageController@sendContactForm')->name('guest.contacts.send');``
+- Creo il metodo
+	`public function sendContactForm(Request $request){ddd($request->all());}`
+- Valido tutti i dati
+
+-Devo generare la mail
+``php artisan make:mail ContactFormMail``
+Creerà una cartella mail in app con l'oggetto maillable appena creato 
+Da documentazione laravel ci dice che ogni funzione publica createa e successivamente passata nel costruct verrà mandata anche nel build
+
+Questo ci permette nella view appena creata in views/mail/contacts/lead.blade.php di accedere ai dati come un semplice array
+
+In questo caso cambio il mail_mailer=log per far si che intercetto le email sul file log
+
+Generiamo l'email 
+	Mail::to('admin@example.com')->send(new ContactFormMail($validated));
+	//ddd($request->all());
+   //ddd($validated);
+   //return(new ContactFormMail($validated))->render();
+   return redirect()->back()->with('message', 'hai inviato una mail');
+   
+    
+Aggiungiamo nel form i messagi e gli errori
+
+
+# Possiamo utilizzare del markdown per il template for the mailable
+
+Lui creeerà una struttura per markdown per la nostra email
+
+``php artisan make:mail MarkdownContactFormMail --markdown=mail.contacts.mdlead``
+
+
+ uesto file markdown è estendibile e configurabile a piacimento.
+ 
+ [Documentazione](https://laravel.com/docs/7.x/mail#customizing-the-components)
+ 
+ Nel file MarkdownContactFormMail -> rifacciamo i stessi passaggi fatti nel ContactFormMail in questo caso dato che abbiamo utilizzato il markdown temolate di laravel aggiungiamo anche un link che riporti alla guest.home `->with(['url' => route('guest.home')]);` 
+ 
+ Per migliorare la resa grafica aggiungiamo un componente 
+	@component('mail::panel')
+	Name:{{ $data['name'] }}
+	Email:{{ $data['email'] }}
+	@endcomponent
+	
+Al componente bottone aggiugniamo l'url della homepage
+
+
+### Per customizzare questi componenti esiste un comando che installa una cartella all'interno del nostro scaffolding
+``php artisan vendor:publish --tag=laravel-mail`` 
+All'intero della cartella views aggiunge una cartella vendor con all'interno tutti i template utilizzati da laravel per generare queste mail.
+
+
+# Aggiunta di un client per email come Mailtrap
+
+Ti registri, c'è un select sotto integrations selezione 'laravel 7+' e copi quello che esce nel caso username e pwd c'è un reset credentials.
+``
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null``
+
+
+Ora se inviassimo una mail mailtrap al posto nostro intercetterà la mail
+
+# cambiamo il Controller che gestisce le email
+
+`php artisan make:model -cm Contact`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
