@@ -1179,6 +1179,14 @@ Aggiunti tramite tinker delle relazione: ``$model->relation()->attach(idToAttach
 ``$model->relation()->detach(idToDetach)``
 
 Fatto l'endpoint passate all'utilizzo di Vue:
+
+Avendo utilizzato la laravel ui vue durante l'installazione iniziale allora è già installato
+
+Lo richiamo utilizzando il pacchetto frontend NPM
+
+`php artisan ui vue npm install && npm run dev npm run watch`
+
+
 - create un componente per mostrare un'elenco di posts in una nuova rotta.
 - visto che ci siete, nella stessa pagina mostrate anche categorie e tags.
 
