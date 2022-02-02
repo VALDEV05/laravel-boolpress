@@ -1110,10 +1110,14 @@ Aggiugniamo le fillable properties su Models/Contact
 
 
 
-1:06:11
+# BONUS 1
+- Implementate lato admin una view index per far vedere all'amministratore tutti i messaggi ricevuto dall'applicazione.
+    Aggiungete view show per mostrare il contentuto del messaggio ricevuto
 
 
 
-
+# BONUS 1 COMPLETATO
+- Implementata lato admin una view index (admin.contacts.index) che al click del bottone all'interno di un messaggio 
+ti porta allo show  (admin.contacts.show)
 
 
