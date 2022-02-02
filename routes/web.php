@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*

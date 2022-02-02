@@ -49,15 +49,11 @@ Route::get('posts', function(){
  * 
  * *Problema con il collegamento della relazione user*
  */
-
-
-/* 
-
-Route::get('posts', function(){
+/* Route::get('posts', function(){
     $posts = Post::with(['user'])->get();
     return $posts;
-}); */
-
+});
+ */
 
 
 

@@ -1154,12 +1154,26 @@ Completato aggiunto un form all'interno della view show cretata una nuova mailab
 - Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API..
 - Agginto il controller Api/PostController
 
+### Definire una Risorsa API Eloquent
+
+Trasforma facilmente i modelli Elonquent in un JSON
+
+[Documentazione](https://laravel.com/docs/7.x/eloquent-resources#generating-resources)
+
+Creazione della Risorsa
+``php artisan make:resource PostResource``
+
+importo all'interno di web.php 
+``use App\Http\Resources\PostResource;``
+
 
 - Commentate via il metodo che avete scelto sopra per sevice le risorse in formato json e sostituitelo con una Eloquent API resource.
 - Ricordatevi che, se il nostro endpoint deve restituire una collection di risorse laravel consiglia di usare ::collection() oppure di creare una risorsa di tipo collection
 - La risorsa api eloquent la possiamo creare con `make:resource` 
     se aggiungiamo l'opzione `--collection` oppure al nome della classe aggiungiamo il prefisso `Collection` ad laravel crea una resource collection.
     ``php artisan make:resource`` PostResource crea una risorsa normale `php artisan make:resource PostCollection` crea una risorsa di tipo collection.
+
+- COMPLETATO Creato L'endpoint per una richiesta con allegata la relazione delle categorie
 
 
 
