@@ -1125,3 +1125,20 @@ ti porta allo show  (admin.contacts.show)
 - Nella pagina show del messaggio (lato admin) implementate un form per inviare una risposta al messaggio ricevuto. Questo richiederá la generazione di una mailable differente e di inviare il messaggio all'utente chevi ha contattato.
 
 Completato aggiunto un form all'interno della view show cretata una nuova mailable e fatta gestire dal Admin/ContactController@store da cui generiamo un email di tipo markdown che inviamo alla stessa email del mittente è come se avessi creato un """""""tread"""""""
+
+
+
+
+
+
+
+
+# Laravel/API/Vue Parte 1
+[JSON DOCUMENTATION](https://laravel.com/docs/7.x/responses#json-responses)
+
+
+- Creiamo un endpoint nel file routes/api.php per visualizzare in formato json una lista di posts
+
+- COMPLETATO Creato un endpoint per visualizzare tutti i posts in formato JSON [ENDPOINT](http://127.0.0.1:8000/api/posts)
+
+
