@@ -44,10 +44,26 @@ Route::get('posts', function(){
 }); */
 
 
+/**
+ * Rotta con paginazione e relazione users 
+ * 
+ * *Problema con il collegamento della relazione user*
+ */
+
 
 /* 
-    Con la paginazione e relazione users*/
+
 Route::get('posts', function(){
     $posts = Post::with(['user'])->get();
     return $posts;
-}); 
+}); */
+
+
+
+
+
+/**
+ * Rotta gestita da un controller 
+ * php artisan make:controller Api/PostController -rm Models/Post
+ */
+Route::get('posts', 'Api\PostController@index');

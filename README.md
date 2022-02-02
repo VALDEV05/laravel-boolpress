@@ -1148,10 +1148,13 @@ Completato aggiunto un form all'interno della view show cretata una nuova mailab
 - COMPLETATO ho provato ad impostare entrambi i metodi
 
 - Provo la paginazione e l'aggiunta della categoria User in quanto è l'unica popolata
+- Problema con il collegamneto delle relazioni
 
 
+- Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API..
+- Agginto il controller Api/PostController
 
-- Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API.
+
 - Commentate via il metodo che avete scelto sopra per sevice le risorse in formato json e sostituitelo con una Eloquent API resource.
 - Ricordatevi che, se il nostro endpoint deve restituire una collection di risorse laravel consiglia di usare ::collection() oppure di creare una risorsa di tipo collection
 - La risorsa api eloquent la possiamo creare con `make:resource` 
