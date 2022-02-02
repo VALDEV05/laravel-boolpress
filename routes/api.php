@@ -1,8 +1,8 @@
 <?php
 use App\Models\Post;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,8 +29,25 @@ Route::get('posts', function(){
 }); */
 
 
+/* 
+    Senza paginazione
 Route::get('posts', function(){
     $posts = Post::all();
     return $posts;
-});
+}); */
 
+/* 
+    Con la paginazione
+Route::get('posts', function(){
+    $posts = Post::paginate(10);
+    return $posts;
+}); */
+
+
+
+/* 
+    Con la paginazione e relazione users*/
+Route::get('posts', function(){
+    $posts = Post::with(['user'])->get();
+    return $posts;
+}); 

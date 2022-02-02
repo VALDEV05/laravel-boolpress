@@ -1147,6 +1147,8 @@ Completato aggiunto un form all'interno della view show cretata una nuova mailab
 
 - COMPLETATO ho provato ad impostare entrambi i metodi
 
+- Provo la paginazione e l'aggiunta della categoria User in quanto è l'unica popolata
+
 
 
 - Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API.
