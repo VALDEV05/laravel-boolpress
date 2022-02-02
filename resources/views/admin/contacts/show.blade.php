@@ -2,6 +2,7 @@
 
 
 @section('content')
+@include('partials.messages')
 <div class="p-5 bg-light">
     <div class="container">
         <div id="title" class="d-flex justify-content-center">
@@ -24,7 +25,7 @@
         </div>
 
         <hr class="my-4">
-        <form action="#" method="post">
+        <form action="{{ route('admin.contacts.store') }}" method="post">
                 @csrf
 
                 <div class="mb-4 w-75 m-auto">
