@@ -1046,6 +1046,12 @@ Lui creeerà una struttura per markdown per la nostra email
 	
 Al componente bottone aggiugniamo l'url della homepage
 
+## Appunti validazioni
+//Mail::to('admin@example.com')->send(new ContactFormMail($validated));
+//ddd($request->all());
+//ddd($validated);
+//return(new ContactFormMail($validated))->render();
+//return(new MarkdownContactFormMail($validated))->render();
 
 ### Per customizzare questi componenti esiste un comando che installa una cartella all'interno del nostro scaffolding
 ``php artisan vendor:publish --tag=laravel-mail`` 
@@ -1080,24 +1086,27 @@ $table->text('message');
 $table->timestamps();
 ```
 
+Modifichiamo il metodo store in modo che crei uan risorsa contatto ovvero 
+``$contact = Contact::create($validated);``
+Al mail:to passiamo `` Mail::to('admin@example.com')->send(new MarkdownContactFormMail($contact));``
 
+Modifichiamo MarkdownContactFormMail in modo che accetti un'istanza dell'oggeto Contact
 
+public $contact; 
+/**
+* Create a new message instance.
+*
+* @return void
+*/
+public function __construct(Contact $contact)
+{
+    $this->contact = $contact;
+}
 
+Ovviamente dobbiamo fare delle modifiche anche nel mdlead (sostituire data con contact)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Aggiugniamo le fillable properties su Models/Contact
+``protected $fillable = ['name', 'email', 'message'];``
 
 
 
