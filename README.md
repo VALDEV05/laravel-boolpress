@@ -1175,7 +1175,8 @@ importo all'interno di web.php
 
 - COMPLETATO Creato L'endpoint per una richiesta con allegata la relazione delle categorie
 
-
+Aggiunti tramite tinker delle relazione: ``$model->relation()->attach(idToAttach)`` Oppure per eliminare una relazione usiamo il detach  
+``$model->relation()->detach(idToDetach)``
 
 Fatto l'endpoint passate all'utilizzo di Vue:
 - create un componente per mostrare un'elenco di posts in una nuova rotta.
