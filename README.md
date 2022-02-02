@@ -1125,3 +1125,44 @@ ti porta allo show  (admin.contacts.show)
 - Nella pagina show del messaggio (lato admin) implementate un form per inviare una risposta al messaggio ricevuto. Questo richiederá la generazione di una mailable differente e di inviare il messaggio all'utente chevi ha contattato.
 
 Completato aggiunto un form all'interno della view show cretata una nuova mailable e fatta gestire dal Admin/ContactController@store da cui generiamo un email di tipo markdown che inviamo alla stessa email del mittente è come se avessi creato un """""""tread"""""""
+
+
+
+
+
+
+
+
+# Laravel/API/Vue Parte 1
+[JSON DOCUMENTATION](https://laravel.com/docs/7.x/responses#json-responses)
+
+
+- Creiamo un endpoint nel file routes/api.php per visualizzare in formato json una lista di posts
+
+- COMPLETATO Creato un endpoint per visualizzare tutti i posts in formato JSON [ENDPOINT](http://127.0.0.1:8000/api/posts)
+
+
+
+- possiamo utilizzare due metodi per ottenere delle risorse in formato json: la scorciatioa con return oppure response()->json()
+
+- COMPLETATO ho provato ad impostare entrambi i metodi
+
+- Provo la paginazione e l'aggiunta della categoria User in quanto è l'unica popolata
+
+
+
+- Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API.
+- Commentate via il metodo che avete scelto sopra per sevice le risorse in formato json e sostituitelo con una Eloquent API resource.
+- Ricordatevi che, se il nostro endpoint deve restituire una collection di risorse laravel consiglia di usare ::collection() oppure di creare una risorsa di tipo collection
+- La risorsa api eloquent la possiamo creare con `make:resource` 
+    se aggiungiamo l'opzione `--collection` oppure al nome della classe aggiungiamo il prefisso `Collection` ad laravel crea una resource collection.
+    ``php artisan make:resource`` PostResource crea una risorsa normale `php artisan make:resource PostCollection` crea una risorsa di tipo collection.
+
+
+
+Fatto l'endpoint passate all'utilizzo di Vue:
+- create un componente per mostrare un'elenco di posts in una nuova rotta.
+- visto che ci siete, nella stessa pagina mostrate anche categorie e tags.
+
+
+
