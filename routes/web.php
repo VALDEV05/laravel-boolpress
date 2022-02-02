@@ -21,9 +21,9 @@ Route::get('/', function () {
 Route::resource('posts', PostController::class)->only(['index', 'show']);
 
 /* route to show the guest.contacts view  */
-Route::get('contacts', 'PageController@contacts')->name('guest.contacts');
+Route::get('contacts', 'ContactController@contacts')->name('guest.contacts');
 /* route to send the form */
-Route::post('contacts', 'PageController@sendContactForm')->name('guest.contacts.send');
+Route::post('contacts', 'ContactController@sendContactForm')->name('guest.contacts.send');
 
 //route to block the recordings of other users
 /* Auth::routes(['register' => false]); */

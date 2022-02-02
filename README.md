@@ -1070,6 +1070,16 @@ Ora se inviassimo una mail mailtrap al posto nostro intercetterà la mail
 
 `php artisan make:model -cm Contact`
 
+Creiamo la migrazione
+
+```
+$table->id();
+$table->string('name', 50);
+$table->string('email');
+$table->text('message');
+$table->timestamps();
+```
+
 
 
 
