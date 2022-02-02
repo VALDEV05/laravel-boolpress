@@ -42,7 +42,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     /* Route tags */
     Route::resource('tags', TagController::class);
     /* Route Contacts */
-    Route::resource('contacts', ContactController::class)->only(['index', 'show']);
+    Route::resource('contacts', ContactController::class)->only(['index', 'show', 'store']);
 });
 
 

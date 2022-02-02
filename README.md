@@ -1121,3 +1121,7 @@ Aggiugniamo le fillable properties su Models/Contact
 ti porta allo show  (admin.contacts.show)
 
 
+# BONUS 2
+- Nella pagina show del messaggio (lato admin) implementate un form per inviare una risposta al messaggio ricevuto. Questo richiederá la generazione di una mailable differente e di inviare il messaggio all'utente chevi ha contattato.
+
+Completato aggiunto un form all'interno della view show cretata una nuova mailable e fatta gestire dal Admin/ContactController@store da cui generiamo un email di tipo markdown che inviamo alla stessa email del mittente è come se avessi creato un """""""tread"""""""
