@@ -19,10 +19,18 @@ use Illuminate\Support\Facades\Route;
 }); 
 
 
+/* 
+    Metodo "Lungo"
 Route::get('posts', function(){
     $posts = Post::all();
     return response()->json([
         'response' => $posts
     ]);
+}); */
+
+
+Route::get('posts', function(){
+    $posts = Post::all();
+    return $posts;
 });
 
