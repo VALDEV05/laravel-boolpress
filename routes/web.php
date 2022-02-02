@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('guest.welcome');
-})->name('guest.home');
+Route::get('/', 'PageController@index')->name('guest.home');
+Route::get('/about', 'PageController@about')->name('guest.about.index');
 
 /* route to show all posts to visitors  */
 Route::resource('posts', PostController::class)->only(['index', 'show']);
@@ -42,6 +41,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     Route::resource('categories', CategoryController::class);
     /* Route tags */
     Route::resource('tags', TagController::class);
+    /* Route Contacts */
+    Route::resource('contacts', ContactController::class)->only(['index', 'show']);
 });
 
 

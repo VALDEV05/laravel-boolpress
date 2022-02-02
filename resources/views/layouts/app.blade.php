@@ -36,7 +36,7 @@
                             </p>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="far fa-address-card  fa-lg fa-fw"></i></a>
+                            <a class="nav-link" href="{{ route('guest.about.index') }}"><i class="far fa-address-card  fa-lg fa-fw"></i></a>
                             <p class="mb-0">
                                 about
                             </p>

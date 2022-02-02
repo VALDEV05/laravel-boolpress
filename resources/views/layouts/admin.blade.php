@@ -75,6 +75,10 @@
                                     <i class="fas fa-thumbtack fa-lg fa-fw" ></i>
                                     Tags
                                 </a>
+                                 <a class="nav-link text-decoration-none text-dark" aria-current="page" href="{{route('admin.contacts.index')}}">
+                                    <i class="fas fa-phone-alt fa-lg fa-fw" ></i>
+                                    Contacts
+                                </a>
                             </li>
                         </ul>
 
