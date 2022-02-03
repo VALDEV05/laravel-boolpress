@@ -1374,8 +1374,11 @@ Costruiamoci un componente tutto nostro che utilizzeremo per mostrarci tutte le 
 
 
 - visto che ci siete, nella stessa pagina mostrate anche categorie e tags 
-
-
+    aggiunta la relazione con le categorie, ma non sono riuscito ad aggiungere quella con i tags ho provato con:
+    <p class="mb-0">
+        Tags : {{ post.tags }}
+    </p>
+    Ma non riesco poi a prendere i nomi, mi stampa solo tutto l'array
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->
