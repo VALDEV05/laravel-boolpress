@@ -1177,8 +1177,45 @@ importo all'interno di web.php
 
 Aggiunti tramite tinker delle relazione: ``$model->relation()->attach(idToAttach)`` Oppure per eliminare una relazione usiamo il detach  
 ``$model->relation()->detach(idToDetach)``
+``/* 
+    Metodo "Lungo"
+Route::get('posts', function(){
+    $posts = Post::all();
+    return response()->json([
+        'response' => $posts
+    ]);
+}); */
 
-Fatto l'endpoint passate all'utilizzo di Vue:
+
+/* 
+    Senza paginazione
+Route::get('posts', function(){
+    $posts = Post::all();
+    return $posts;
+}); */
+
+/* 
+    Con la paginazione
+Route::get('posts', function(){
+    $posts = Post::paginate(10);
+    return $posts;
+}); */
+
+
+/**
+ * Rotta con paginazione e relazione users 
+ * 
+ * *Problema con il collegamento della relazione user*
+ */
+/* Route::get('posts', function(){
+    $posts = Post::with(['user'])->get();
+    return $posts;
+});
+ */
+``
+
+
+# Fatto l'endpoint passate all'utilizzo di Vue:
 
 Avendo utilizzato la laravel ui vue durante l'installazione iniziale allora è già installato
 
