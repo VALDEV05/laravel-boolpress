@@ -5,6 +5,12 @@
                 <div class="card-body">
                     <h3>{{ post.title }}</h3>
                     <p class="text-muted">{{ post.title }}</p>
+
+                    <div class="relatonships" >
+                        <p class="mb-0">
+                            Category : {{ post.category.name }}
+                        </p>
+                    </div>
                 </div>
             </div>
          </div>
@@ -20,7 +26,7 @@
                 meta: {},
                 links: {},
             };
-        },
+        }, 
         mounted(){
             axios
                 .get('api/posts')
