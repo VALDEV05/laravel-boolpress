@@ -58,6 +58,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     /* Route Contacts */
     Route::resource('contacts', ContactController::class)->only(['index', 'show', 'store']);
 });
+
+
+
+
 Route::get('/{any}', function () {
     return view('guest.welcome');
 })->where('any', '.*');

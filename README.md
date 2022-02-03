@@ -1505,6 +1505,12 @@ Possiamo notare come all'interno del link ci sia un hash ovvero quel cancelletto
 Per modificare questa modalità basterà aggiungere ` mode: 'history',` dove abbiamo creato l'istanza.
 
 
+Ora dovremo costruire una nuova modalità di rotta, una che cattura tutto infatti sarà di tipo catch ha la funzione di catturare tutte le rotte, solo dobbiamo fare attenzione perchè dovrà essere **sempre la nostra ultima rotta** in quanto non legge le rotte successive.
+Non mostrerebbe neanche le rotte admin
+
+Route::get('/{any}', function () {
+    return view('guest.welcome');
+})->where('any', '.*');
 
 
 
