@@ -1451,17 +1451,17 @@ const routes = [
     {
         path: '/', //URI
         name: 'home', //name della rotta
-        component: 'Home' //componente da restituire '''''view'''''
+        component: Home //componente da restituire '''''view'''''
     },
     {
         path: '/about', //URI
         name: 'about', //name della rotta
-        component: 'About' //componente da restituire '''''view'''''
+        component: About //componente da restituire '''''view'''''
     },
     {
         path: '/contacts', //URI
         name: 'contacts', //name della rotta
-        component: 'Contacts' //componente da restituire '''''view'''''
+        component: Contacts //componente da restituire '''''view'''''
     }
 ]
 
@@ -1486,6 +1486,23 @@ Basterà aggiungere 'router' all'interno dell'istanza
 
 # Dato che abbiamo anche la sezione di autenticazione di laravel ci creiamo un nuovo layout 
 Questo lo chiameremo spa.blade.php dove modificheremo solo la navbar di lato sinistro, in quanto non vogliamo toccare la parte della navbar con le autenticazioni di laravel.
+Creato il nuovo layout seguiamo con la creazione di un parziale dove metteremo la nostra navbar completa. La parte sinistra modifichiamo i link con i router-link in questo modo
+`<router-link to="/contacts" class="nav-link">Contacts</router-link>` Semplificheremo anche il layout dell'app a singola pagina importando solamente la navbar e lo yield (leveremo il tag del main)
+Il nostro obiettivo è quello di creare un componente che come quando utilizzavamo Vue Cli Ci gestisce un po il tutto infatti all'interno della cartella resources/js creeremo un componente chiamato App.vue dove estendere il nostro template base di vue
+
+
+All'interno del nostro dovremo aggiungere il componente che si preoccupa di gestire tutte le rotte `<router-view></router-view>` che ovviamente andrà importato all'interno del nostro file `app.js`-> in questo modo: `Vue.component('App', require('./App.vue').default);`
+
+Dovremo mostrare tutto ciò: utilizzeremo la rotta che laravel imposta di default ovvero `guest.welcome` dove importeremo il componente App e il layout a singola pagina
+`@extends('layouts.spa')
+@section('content')
+  <App></App>
+@endsection`
+
+In questo modo potremo visualizzare l'inizio della nostra applicazione a singola pagina, ovvero vedremo che anche switchando link della pagina il browser non ricaricherà mai.
+Possiamo notare come all'interno del link ci sia un hash ovvero quel cancelletto che è nel nostro link `http://127.0.0.1:8000/#/contacts`. Possiamo togliere impostando come modalità di default `History Mode` adesso come proprieta di default è impostata la `Hash mode`
+
+Per modificare questa modalità basterà aggiungere ` mode: 'history',` dove abbiamo creato l'istanza.
 
 
 

@@ -24,21 +24,22 @@ const Contacts = Vue.component('Contacts', require('./pages/Contacts.vue').defau
 const routes = [{
             path: '/', //URI
             name: 'home', //name della rotta
-            component: 'Home' //componente da restituire '''''view'''''
+            component: Home //componente da restituire '''''view'''''
         },
         {
             path: '/about', //URI
             name: 'about', //name della rotta
-            component: 'About' //componente da restituire '''''view'''''
+            component: About //componente da restituire '''''view'''''
         },
         {
             path: '/contacts', //URI
             name: 'contacts', //name della rotta
-            component: 'Contacts' //componente da restituire '''''view'''''
+            component: Contacts //componente da restituire '''''view'''''
         }
     ]
     // 3. Create the router instance and pass the `routes` option
 const router = new VueRouter({
+    mode: 'history',
     routes // short for `routes: routes`
 })
 
@@ -54,6 +55,7 @@ const router = new VueRouter({
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.component('App', require('./App.vue').default);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 

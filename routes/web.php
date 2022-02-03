@@ -14,24 +14,29 @@ use Illuminate\Support\Facades\Auth;
 */
 
 /* Route to the blog with vueAPI   */
-Route::get('/SPAposts', function(){
+/* Route::get('/SPAposts', function(){
         return view('guest.SPAposts.index');
     })->name('guest.SPAposts.index');
+ */
 
 
+ /* Route to show the APPLICATION SINGLE PAGE */
+/* 
+Route::get('/',function(){
+    return view('guest.welcome');
+});
+ */
 
-
-
-Route::get('/', 'PageController@index')->name('guest.home');
-Route::get('/about', 'PageController@about')->name('guest.about.index');
+/* Route::get('/', 'PageController@index')->name('guest.home');
+Route::get('/about', 'PageController@about')->name('guest.about.index'); */
 
 /* route to show all posts to visitors  */
-Route::resource('posts', PostController::class)->only(['index', 'show']);
+//Route::resource('posts', PostController::class)->only(['index', 'show']);
 
 /* route to show the guest.contacts view  */
-Route::get('contacts', 'ContactController@show_contact_page')->name('guest.contacts');
+//Route::get('contacts', 'ContactController@show_contact_page')->name('guest.contacts');
 /* route to send the form */
-Route::post('contacts', 'ContactController@store')->name('guest.contacts.send');
+/* Route::post('contacts', 'ContactController@store')->name('guest.contacts.send'); */
 
 //route to block the recordings of other users
 /* Auth::routes(['register' => false]); */
@@ -53,11 +58,13 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     /* Route Contacts */
     Route::resource('contacts', ContactController::class)->only(['index', 'show', 'store']);
 });
-
+Route::get('/{any}', function () {
+    return view('guest.welcome');
+})->where('any', '.*');
 
 /* route to show all categories  */
-Route::get('categories/{category:slug}/posts', 'CategoryController@posts')->name('categories.posts');
+//Route::get('categories/{category:slug}/posts', 'CategoryController@posts')->name('categories.posts');
 
 /* route to show all tags */
 
-Route::get('tags/{tag:slug}/posts', 'TagController@posts')->name('tags.posts');
+//Route::get('tags/{tag:slug}/posts', 'TagController@posts')->name('tags.posts');
