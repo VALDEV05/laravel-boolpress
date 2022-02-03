@@ -1369,16 +1369,128 @@ Costruiamoci un componente tutto nostro che utilizzeremo per mostrarci tutte le 
         </section>
     </template>
 
-
-
-
-
 - visto che ci siete, nella stessa pagina mostrate anche categorie e tags 
     aggiunta la relazione con le categorie, ma non sono riuscito ad aggiungere quella con i tags ho provato con:
     <p class="mb-0">
         Tags : {{ post.tags }}
     </p>
     Ma non riesco poi a prendere i nomi, mi stampa solo tutto l'array
+
+
+
+# Implementazione applicazione a singola pagina
+ 
+
+- Partiamo dal principio, cos'è un'applicazione a singola pagina?
+    È un'applicazione web in cui il contenuto viene caricato dinamicamente senza dover ricaricare la pagina. Passeremo da una pagina all'altra senza mai aspettare il tempo in cui la pagina refresha. Ovviamente nel caso in cui il nostro server API avesse un ritardo o comunque fosse lento nel mostrarci la nostra risorsa in quel caso non attenderemo su una pagina bianca in attesa di caricamento ma attenderemo solo il caricamento della risorsa. Magari possiamo aggiungere un simbolo di download nell'attesa del caricamento della risorsa.
+
+-  Per implementare questa applicazione a singola pagina dobbiamo aggiungere una nuova libreria che fa parte  dell'ecosistema di vuejs. La libreria in questione è **Vue Router** [documentazione](https://router.vuejs.org/) che tramite il file web.php intercetta le rotte e utilizzandi i componenti che ci mette a disposizione ci permette di mostrare questa esperienza utente al cliente. Appunto è il pacchetto ufficiale di VueJS per quanto riguarda la gestione delle rotte.
+
+- L'installazione può avvenire o tramite CDN o tramite installazione da CLI passando tramite il pacchetto NPM 
+    `npm i vue-router` poi dobbiamo inniettarlo all'interno di Vue all'interno del file app.js
+
+
+    `import Vue from 'vue'
+     import VueRouter from 'vue-router'
+     Vue.use(VueRouter)`
+
+
+## Setup vue router
+
+// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
+// and then call `Vue.use(VueRouter)`.
+
+// 1. Define route components.
+// These can be imported from other files
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+// 2. Define some routes
+// Each route should map to a component. The "component" can
+// either be an actual component constructor created via
+// `Vue.extend()`, or just a component options object.
+// We'll talk about nested routes later.
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 3. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = new VueRouter({
+  routes // short for `routes: routes`
+})
+
+// 4. Create and mount the root instance.
+// Make sure to inject the router with the router option to make the
+// whole app router-aware.
+const app = new Vue({
+  router
+}).$mount('#app')
+
+// Now the app has started!
+
+
+
+# STEP 1 Definizione dei componenti
+- Eseguito lo step dell'installazione possiamo passare allo step della definizioni delle route pages components ovver nel file app.js definiamo delle rotte per delle pagini che sono simili a dei componenti. 
+
+
+`const Home = Vue.component('Home', require('./pages/Home.vue').default);
+ const About = Vue.component('About', require('./pages/About.vue').default);
+ const Contacts = Vue.component('Contacts', require('./pages/Contacts.vue').default);`
+
+# STEP 2 Definizione delle rotte
+Definite anche le pagine passiamo alla definizione delle rotte
+    Abbiamo detto che utilizzando questa applicazione a signola pagina i componenti intercetteranno delle rotte e noi dovremo solamente servire il nome della rotta e il nome della pagina da restituire e faranno tutto i componenti di vue.router come ad esempio `<router-link to="/foo">Go to Foo</router-link>` questo componente ha la stessa funzionalità di un anchor tag `<a href="rotta-da-eseguire">nome da mostrare</a>`
+
+
+Definizione delle rotte
+const routes = [
+    {
+        path: '/', //URI
+        name: 'home', //name della rotta
+        component: 'Home' //componente da restituire '''''view'''''
+    },
+    {
+        path: '/about', //URI
+        name: 'about', //name della rotta
+        component: 'About' //componente da restituire '''''view'''''
+    },
+    {
+        path: '/contacts', //URI
+        name: 'contacts', //name della rotta
+        component: 'Contacts' //componente da restituire '''''view'''''
+    }
+]
+
+
+# STEP 3 Creazione del'istanza vue epassagio del parametro Routes
+
+// 3. Create the router instance and pass the `routes` option
+const router = new VueRouter({
+    routes
+})
+
+# STEP 4 Assicuriamoci che Vue router sia correttamente inniettato all'interno dell'istanza
+
+const app = new Vue({
+    router,
+    el: '#app',
+});
+
+Basterà aggiungere 'router' all'interno dell'istanza
+
+
+
+# Dato che abbiamo anche la sezione di autenticazione di laravel ci creiamo un nuovo layout 
+Questo lo chiameremo spa.blade.php dove modificheremo solo la navbar di lato sinistro, in quanto non vogliamo toccare la parte della navbar con le autenticazioni di laravel.
+
+
+
+
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->
