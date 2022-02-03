@@ -1220,12 +1220,168 @@ Route::get('posts', function(){
 Avendo utilizzato la laravel ui vue durante l'installazione iniziale allora è già installato
 
 Lo richiamo utilizzando il pacchetto frontend NPM
-
+Se non lo avevi fatto in precedenza, sennò ti elimina tutti i settagi di webpackmix
 `php artisan ui vue npm install && npm run dev npm run watch`
 
 
 - create un componente per mostrare un'elenco di posts in una nuova rotta.
-- visto che ci siete, nella stessa pagina mostrate anche categorie e tags.
+
+Dato che dovrò creare tramite vue un altro blog creo all'interno del menu un link con icona vue.
+ Creata la view la identifico tramite una rotta all'interno del file web.php
+
+
+`/* Route to the blog with vueAPI   */
+Route::get('/SPAposts', function(){
+return view('guest.SPAposts.index');
+})->name('guest.SPAposts.index');`
+
+
+con lo scaffolding scaricato all'inizio abbiamo installto tutta la parte di vuejs ovvero app.js e admin.js che useremo per usufruire delle nostre API.
+All'interno di questi file possiamo notare come viene già impostato e preparato l'istanza di VUEJS e il collegamento a un componente di esempio `<example-component></example-component>`
+Volendo per visualizzarlo potremmo aggiungerlo alla nostra pagina.
+
+
+`resources/views/guest/SPAposts/index.blade.php`
+Breve descrizione della struttura della pagina:
+- abbiamo esteso il layout `('layouts.app')`
+- Abbiamo collegato tramite lo yield content 
+- Abbiamo aggiunto il componente d'esempio
 
 
 
+@extends('layouts.app')
+@section('content')
+
+    <div class="p-5 bg-light">
+        <div class="container text-center">
+            <h1 class="display-3"><i class="fab fa-vuejs fa-lg fa-fw"></i> SPA BLOG <i class="fab fa-vuejs fa-lg fa-fw"></i></h1>
+            <p class="lead text-muted"><i class="fab fa-forumbee"></i> Qui mostreremo tutta la lista dei post stampati tramite l'utilizzo di un API <i class="fab fa-forumbee"></i></p>
+            <hr class="my-2">
+
+            <example-component></example-component>
+        </div>
+    </div>
+@endsection
+
+
+
+In questo modo visualizzeremo il componente esempio di vue.
+Il componente di esempio è come i componenti che abbiamo già utilizzato tramite VUECLI ovvero sono formati da <template> - <script> - <style>.
+
+
+Costruiamoci un componente tutto nostro che utilizzeremo per mostrarci tutte le nostre risorse 
+
+
+## Creazione di un componente tutto nostro:
+
+    - Aggiungiamo la registrazione del componente all'interno del file app.js dove copieremo la riga 22 ovvero dove viene registrato il example-component
+
+    ``Vue.component('example-component', require('./component/ExampleComponent.vue').default);``
+
+    E la personalizzeremo a modo nostro il componente sarà posts-list in quanto dovrà presentare una lista di articoli di un blog.
+
+    Vue.component('posts-list', require('./components/PostsListComponent.vue').default);
+
+
+    Ci dovremo creare questo componente a mano. `resources/js/components` path completo dove creare il componente
+
+    creato il componente lo aggiungiamo alla nostra view `<posts-list></posts-list>`
+
+    aggiunto il componente passiamo alla creazione del template 
+
+        <template>
+
+        </template>
+
+        <script>
+            export default {
+
+            }
+        </script>
+
+        <style>
+
+        </style> 
+
+    possiamo passare a fare la chiamata axios tramite lo script:
+    
+    <script>
+        export default {
+            mounted(){
+                axios
+                    .get('api/posts')
+                    .then(response => {
+                        console.log(response.data.data);
+                    })
+            }
+        }
+    </script>
+    
+
+    In questo modo all'interno della console potremo visualizzare i dati passati dall'endPoint. 
+    - Con questo console.log(response.data.data); avremo solamente i post di cui abbiamo bisogno, ma se togliessimo i data 
+    mostreremo un console.log(response); di questo genere avremo in più tutti quei dati di cui potremo usufruire come:
+    - in caso di paginazione i link per la paginazione
+    - i metadata ovvero tutti quei dati di informazioni come pagina corrente numero di elementi per pagina totale dei posti e molto altro.
+
+
+    Dato che l'ogetto game ancora deve essere definito in questo momento non funzionerà 
+
+    definiamolo:
+        <script>
+            export default {
+                data(){
+                    return{
+                        loading: true,
+                        posts: {},
+                        meta: {},
+                        links: {},
+                    };
+                },
+                mounted(){
+                    axios
+                        .get('api/posts')
+                        .then(response => {
+                            console.log(response.data.data);
+                            this.posts = response.data.data;
+                            this.meta = response.data.meta;
+                            this.links = response.data.links;
+                            this.loading = false;
+                        })
+                }
+            }
+        </script>
+    Nel nostro caso aggiungeremo anche delle altr variabili come loading che useremo per il caricamento nell'attesa del caricamento della pagina, una variabile dove salveremo tutti i nostri posts, una dove salveremo  links per la paginazione e una per salvare tutti i metadata
+
+    Passiamo nel mostrare a schermo tutti i posts
+    basterà solamente richiamare la struttura dei posts
+
+    <template>
+        <section class="posts row">
+            <div class="post col-md-4" v-for="post in posts">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>{{ post.title }}</h3>
+                        <p class="text-muted">{{ post.title }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+
+
+
+
+- visto che ci siete, nella stessa pagina mostrate anche categorie e tags 
+
+
+# MIGLIORIE LATO DESIGN 
+- LATO GUEST
+   <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->
+    <!-- MODIFICA L'ASPETTO DEI LINK -->
+- LATO ADMIN
+    - SEZIONI MESSAGGI
+        <!-- MODIFICA ASPETTO DELLE CARD MARGINE SUPERIORE  -->
+        MODIFICA IL TITOLO AGGIUNGI EMOTICON
+        AGGIUNGI shadow-lg a tutte le card

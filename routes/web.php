@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+/* Route to the blog with vueAPI   */
+Route::get('/SPAposts', function(){
+        return view('guest.SPAposts.index');
+    })->name('guest.SPAposts.index');
+
+
+
+
+
 Route::get('/', 'PageController@index')->name('guest.home');
 Route::get('/about', 'PageController@about')->name('guest.about.index');
 

@@ -5,10 +5,10 @@
             <h3 class="display-5 text-center">Contacts Page</h3>
             <p class="lead text-uppercase text-muted text-center">all of your clients</p>
             <section class="clients">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" height="250px">
                     @foreach ($contacts as $contact)
-                        <div class="col">
-                            <div class="card text-center">
+                        <div class="col mt-2 py-4">
+                            <div class="card text-center h-100 shadow-lg">
                                 <div class="card-body">
                                     <h4 class="card-title mb-0">{{ $contact->name }}</h4>
                                     <p class="card-text mb-0 text-muted">{{ $contact->email }}</p>
