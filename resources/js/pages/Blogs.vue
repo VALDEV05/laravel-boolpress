@@ -24,6 +24,9 @@ export default {
   data(){
     return{
       posts:{},
+      links:{},
+      meta:{},
+      loading: false,
 
     }
   },
@@ -31,8 +34,10 @@ export default {
     axios
       .get('api/posts')
       .then(response =>{
-          console.log(response.data.data);
           this.posts = response.data.data;
+          this.meta = response.data.meta;
+          this.links = response.data.links;
+          this.loading = false;
       })
   }
 }

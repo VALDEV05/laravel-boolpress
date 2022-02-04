@@ -1533,6 +1533,28 @@ All'interno di questo nuovo componente verrà usufruita l'endpoint della risorsa
 - successivamente stamperemo a schermo i nostri posts
 
 
+# Stampare a schermo il singolo articolo
+
+Aggiungiamo una rotta che dinamica che ci mostrerà il singolo articolo
+{
+    path: '/blogs/:slug', //URI
+    name: 'blogPost', //name della rotta
+    component: BlogPost //componente da restituire '''''view'''''
+}
+
+Questa nuova rotta ha l'aggiunta di un parametro che sarà colui che ci permetterà di collegarci al singolo post
+Ci definiamo il componente per il singolo gioco 
+Dove all'inizio metteremo solamente la stampa del parametro presa da {{ $route.params.slug }}
+`<template>
+  <div class="blog">
+      <h1>Single game</h1>
+      <h4>{{ $route.params.slug }}</h4>
+  </div>
+</template>`
+Aggiungendo uno slug alla fine dell'url avremo il nostro singolo elemento
+
+`http://127.0.0.1:8000/blogs/sed-aperiam-sequi-ut`
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->

@@ -20,6 +20,7 @@ const Home = Vue.component('Home', require('./pages/Home.vue').default);
 const About = Vue.component('About', require('./pages/About.vue').default);
 const Contacts = Vue.component('Contacts', require('./pages/Contacts.vue').default);
 const Blogs = Vue.component('Blogs', require('./pages/Blogs.vue').default);
+const BlogPost = Vue.component('BlogPost', require('./pages/BlogPost.vue').default);
 
 // 2. Define some routes
 const routes = [{
@@ -41,6 +42,11 @@ const routes = [{
             path: '/blogs', //URI
             name: 'blogs', //name della rotta
             component: Blogs //componente da restituire '''''view'''''
+        },
+        {
+            path: '/blogs/:slug', //URI
+            name: 'blogPost', //name della rotta
+            component: BlogPost //componente da restituire '''''view'''''
         }
     ]
     // 3. Create the router instance and pass the `routes` option
