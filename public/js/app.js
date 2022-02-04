@@ -2142,7 +2142,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta = response.data.meta;
         _this.links = response.data.links;
         _this.loading = true;
-        console.log(_this.links);
+        console.log(_this.meta);
       });
     }
   }
@@ -38028,27 +38028,31 @@ var render = function () {
         "div",
         { staticClass: "pagination d-flex justify-content-center mt-3" },
         [
-          _c(
-            "span",
-            {
-              staticClass: "btn text-secondary text-capitalize",
-              on: { click: _vm.prevPage },
-            },
-            [_vm._v("prev")]
-          ),
+          _vm.meta.current_page > 1
+            ? _c(
+                "span",
+                {
+                  staticClass: "btn text-secondary text-capitalize",
+                  on: { click: _vm.prevPage },
+                },
+                [_vm._v("prev")]
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c("span", { staticClass: "btn btn-outline-primary" }, [
             _vm._v(_vm._s(_vm.meta.current_page)),
           ]),
           _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "btn text-secondary text-capitalize",
-              on: { click: _vm.nextPage },
-            },
-            [_vm._v("next")]
-          ),
+          _vm.meta.current_page !== _vm.meta.last_page
+            ? _c(
+                "span",
+                {
+                  staticClass: "btn text-secondary text-capitalize",
+                  on: { click: _vm.nextPage },
+                },
+                [_vm._v("next")]
+              )
+            : _vm._e(),
         ]
       ),
     ]),

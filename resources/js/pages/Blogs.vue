@@ -23,9 +23,9 @@
             </div>
         </div>
         <div class="pagination d-flex justify-content-center mt-3">
-          <span class="btn text-secondary text-capitalize" @click="prevPage">prev</span>
+          <span class="btn text-secondary text-capitalize" @click="prevPage" v-if="meta.current_page > 1">prev</span>
           <span class="btn btn-outline-primary">{{meta.current_page}}</span>
-          <span class="btn text-secondary text-capitalize" @click="nextPage">next</span>
+          <span class="btn text-secondary text-capitalize" @click="nextPage" v-if="meta.current_page !== meta.last_page">next</span>
         </div>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default {
           this.meta = response.data.meta;
           this.links = response.data.links;
           this.loading = true;
-          console.log(this.links);
+          console.log(this.meta);
       })
     }
 
