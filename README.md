@@ -1512,6 +1512,25 @@ Route::get('/{any}', function () {
     return view('guest.welcome');
 })->where('any', '.*');
 
+# Creiamo il componente per il blog
+const Blogs = Vue.component('Blogs', require('./pages/Blogs.vue').default);
+Ovviamnente ci aggiungiamo la rotta
+{
+    path: '/blogs', //URI
+    name: 'blogs', //name della rotta
+    component: Blogs //componente da restituire '''''view'''''
+}
+
+**ERROR in ./resources/js/app.js**
+Ovviamente NPM non troverà il componente, va creato.
+Aggiungiamo un link per accedere al blog
+<!-- <li class="nav-item">
+    <router-link class="nav-link" to="/blogs">Blogs</router-link>
+</li> -->
+
+All'interno di questo nuovo componente verrà usufruita l'endpoint della risorsa e verra stampata una lista di articoli
+- faremo la chiamata axios alla nostra rotta
+- successivamente stamperemo a schermo i nostri posts
 
 
 # MIGLIORIE LATO DESIGN 

@@ -19,6 +19,7 @@ Vue.use(VueRouter)
 const Home = Vue.component('Home', require('./pages/Home.vue').default);
 const About = Vue.component('About', require('./pages/About.vue').default);
 const Contacts = Vue.component('Contacts', require('./pages/Contacts.vue').default);
+const Blogs = Vue.component('Blogs', require('./pages/Blogs.vue').default);
 
 // 2. Define some routes
 const routes = [{
@@ -35,6 +36,11 @@ const routes = [{
             path: '/contacts', //URI
             name: 'contacts', //name della rotta
             component: Contacts //componente da restituire '''''view'''''
+        },
+        {
+            path: '/blogs', //URI
+            name: 'blogs', //name della rotta
+            component: Blogs //componente da restituire '''''view'''''
         }
     ]
     // 3. Create the router instance and pass the `routes` option

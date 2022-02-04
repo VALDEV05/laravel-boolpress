@@ -12,6 +12,9 @@
                         <li class="nav-item">
                             <router-link class="nav-link" to="/contacts">Contacts</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/blogs">Blogs</router-link>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
