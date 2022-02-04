@@ -1570,7 +1570,7 @@ Facciamo la chiamata Api singola
 `export default {
   data(){
     return{
-      game:{}
+      post:{}
     }
   },
   mounted(){
@@ -1584,6 +1584,9 @@ Facciamo la chiamata Api singola
 }`
 
 nella console vedremo il post
+
+
+Ovviamente dovremo impostare e assegnare al dato post i dati in questo modo all'interno del then della chiamata API aggiungiamo `this.post = response.data.data;` e possiamo provare ad aggiungere una semplice stampa del titolo per vedere il giusto funzionamento in questo modo: `<h4>{{ post.title }}</h4>`
 
 
 

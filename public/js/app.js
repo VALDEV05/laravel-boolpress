@@ -2038,15 +2038,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      game: {}
+      post: {}
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     axios.get('/api/posts/' + this.$route.params.slug).then(function (response) {
       console.log(response.data.data);
+      _this.post = response.data.data;
     })["catch"](function (error) {
       console.error(error);
     });
@@ -37893,6 +37897,8 @@ var render = function () {
     _c("p", { staticClass: "text-center mb-0" }, [
       _vm._v(_vm._s(_vm.$route.params.slug)),
     ]),
+    _vm._v(" "),
+    _c("h4", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.post.title))]),
   ])
 }
 var staticRenderFns = []
