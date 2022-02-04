@@ -2100,6 +2100,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2116,8 +2128,17 @@ __webpack_require__.r(__webpack_exports__);
       _this.posts = response.data.data;
       _this.meta = response.data.meta;
       _this.links = response.data.links;
-      _this.loading = false;
+      _this.loading = true;
+      console.log(_this.posts);
     });
+  },
+  methods: {
+    nextPage: function nextPage() {
+      console.log('pagina successiva');
+    },
+    prevPage: function prevPage() {
+      console.log('pagina precendente');
+    }
   }
 });
 
@@ -37946,7 +37967,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "Blog" }, [
-    _c("h1", { staticClass: "text-center" }, [_vm._v("Blog-Page")]),
+    _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "container" }, [
       _c(
@@ -37996,10 +38017,59 @@ var render = function () {
         }),
         0
       ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "pagination d-flex justify-content-center mt-3" },
+        [
+          _c(
+            "span",
+            {
+              staticClass: "btn text-secondary text-capitalize",
+              on: { click: _vm.prevPage },
+            },
+            [_vm._v("prev")]
+          ),
+          _vm._v(" "),
+          _c("span", { staticClass: "btn btn-outline-primary" }, [
+            _vm._v(_vm._s(_vm.meta.current_page)),
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "btn text-secondary text-capitalize",
+              on: { click: _vm.nextPage },
+            },
+            [_vm._v("next")]
+          ),
+        ]
+      ),
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: " bg-light" }, [
+      _c("div", { staticClass: "container text-center" }, [
+        _c("h1", { staticClass: "display-4" }, [
+          _c("i", { staticClass: "fas fa-newspaper fa-lg fa-fw  " }),
+          _vm._v(" BLOG "),
+          _c("i", { staticClass: "fas fa-newspaper fa-lg fa-fw  " }),
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "lead text-muted text-capitalize" }, [
+          _vm._v("here we will show all the posts of our blog"),
+        ]),
+        _vm._v(" "),
+        _c("hr", { staticClass: "mt-2" }),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 

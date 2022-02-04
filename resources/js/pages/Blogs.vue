@@ -1,6 +1,13 @@
 <template>
   <div class="Blog">
-    <h1 class="text-center">Blog-Page</h1>
+    <div class=" bg-light">
+      <div class="container text-center">
+        <h1 class="display-4"><i class="fas fa-newspaper fa-lg fa-fw  "></i> BLOG <i class="fas fa-newspaper fa-lg fa-fw  "></i></h1>
+        <p class="lead text-muted text-capitalize">here we will show all the posts of our blog</p>
+        <hr class="mt-2">
+      </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-4" v-for="post in posts">
@@ -14,6 +21,11 @@
                 </div>
                 <!-- /.card -->
             </div>
+        </div>
+        <div class="pagination d-flex justify-content-center mt-3">
+          <span class="btn text-secondary text-capitalize" @click="prevPage">prev</span>
+          <span class="btn btn-outline-primary">{{meta.current_page}}</span>
+          <span class="btn text-secondary text-capitalize" @click="nextPage">next</span>
         </div>
     </div>
   </div>
@@ -34,11 +46,21 @@ export default {
     axios
       .get('api/posts')
       .then(response =>{
+        
           this.posts = response.data.data;
           this.meta = response.data.meta;
           this.links = response.data.links;
-          this.loading = false;
+          this.loading = true;
+          console.log(this.posts);
       })
+  },
+  methods:{
+    nextPage(){
+      console.log('pagina successiva');
+    },prevPage(){
+      console.log('pagina precendente');
+    },
+
   }
 }
 </script>

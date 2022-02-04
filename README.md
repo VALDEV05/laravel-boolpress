@@ -1592,6 +1592,19 @@ Ovviamente dovremo impostare e assegnare al dato post i dati in questo modo all'
 
 aggiunto dello stile e tutti i contenuti alla pagina
 
+Riattivate anche le rotte per quanto riguarda l'admin mancano da aggiungere solamente le relazioni
+
+# Paginazione
+
+all'interno dei metadati avremo tutti i link per quanto riguarda la paginazione
+aggiungiamo il markup per la paginazione 
+
+
+implementare la paginazione ogni volta che si clicca su un link avremo una nuova chiamata api quando ci troviamo nella prima e nell'ultima pagina dovremo far sparire il prev e next, possiamo aggiungere anche il numero delle pagine dovremo implementare anche tutta la logica dietro tramite vue.
+
+Implementiamo la paginazione
+
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->
