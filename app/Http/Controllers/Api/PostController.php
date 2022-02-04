@@ -47,7 +47,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+       /*  return PostResource::with((['category', 'tags'])->paginate(6)); */
+       return new PostResource($post);
     }
 
     /**
