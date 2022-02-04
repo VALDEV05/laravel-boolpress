@@ -8,6 +8,55 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+/* SETUP VUE-Router */
+//Installa Vue Router - Step 0 
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+// 1. Define route pages components
+
+const Home = Vue.component('Home', require('./pages/Home.vue').default);
+const About = Vue.component('About', require('./pages/About.vue').default);
+const Contacts = Vue.component('Contacts', require('./pages/Contacts.vue').default);
+const Blogs = Vue.component('Blogs', require('./pages/Blogs.vue').default);
+const BlogPost = Vue.component('BlogPost', require('./pages/BlogPost.vue').default);
+
+// 2. Define some routes
+const routes = [{
+            path: '/', //URI
+            name: 'home', //name della rotta
+            component: Home //componente da restituire '''''view'''''
+        },
+        {
+            path: '/about', //URI
+            name: 'about', //name della rotta
+            component: About //componente da restituire '''''view'''''
+        },
+        {
+            path: '/contacts', //URI
+            name: 'contacts', //name della rotta
+            component: Contacts //componente da restituire '''''view'''''
+        },
+        {
+            path: '/blogs', //URI
+            name: 'blogs', //name della rotta
+            component: Blogs //componente da restituire '''''view'''''
+        },
+        {
+            path: '/blogs/:slug', //URI
+            name: 'blogPost', //name della rotta
+            component: BlogPost //componente da restituire '''''view'''''
+        }
+    ]
+    // 3. Create the router instance and pass the `routes` option
+const router = new VueRouter({
+    mode: 'history',
+    routes // short for `routes: routes`
+})
+
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -18,10 +67,14 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.component('App', require('./App.vue').default);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('posts-list', require('./components/PostsListComponent.vue').default);
+
+
+// 4. Create and mount the root instance.
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,5 +83,6 @@ Vue.component('posts-list', require('./components/PostsListComponent.vue').defau
  */
 
 const app = new Vue({
+    router,
     el: '#app',
 });

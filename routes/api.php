@@ -21,3 +21,5 @@ use Illuminate\Support\Facades\Route;
  * php artisan make:controller Api/PostController -rm Models/Post
  */
 Route::get('posts', 'Api\PostController@index');
+
+Route::get('posts/{post}', 'Api\PostController@show');
