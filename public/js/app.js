@@ -2118,19 +2118,12 @@ __webpack_require__.r(__webpack_exports__);
       posts: {},
       links: {},
       meta: {},
-      loading: false
+      loading: false,
+      url: 'api/posts'
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('api/posts').then(function (response) {
-      _this.posts = response.data.data;
-      _this.meta = response.data.meta;
-      _this.links = response.data.links;
-      _this.loading = true;
-      console.log(_this.posts);
-    });
+    this.fetchPosts(this.url);
   },
   methods: {
     nextPage: function nextPage() {
@@ -2138,6 +2131,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     prevPage: function prevPage() {
       console.log('pagina precendente');
+    },
+    fetchPosts: function fetchPosts(url) {
+      var _this = this;
+
+      axios.get(url).then(function (response) {
+        _this.posts = response.data.data;
+        _this.meta = response.data.meta;
+        _this.links = response.data.links;
+        _this.loading = true;
+        console.log(_this.posts);
+      });
     }
   }
 });
