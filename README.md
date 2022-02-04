@@ -1605,6 +1605,65 @@ implementare la paginazione ogni volta che si clicca su un link avremo una nuova
 Implementiamo la paginazione
 
 
+Aggiungiamo un metodo che ci gestisca la chiamata API, sarà un fetch methods ovvero un metodo che acceta come variabile un link e sfrutta questo link per servire delle risorse. Lo impostiamo in questo modo:
+export default {
+  data(){
+    return{
+      posts:{},
+      links:{},
+      meta:{},
+      loading: false,
+      url:'api/posts'
+
+    }
+  },
+  mounted(){
+    this.fetchPosts(this.url);
+  },
+  methods:{
+    nextPage(){
+      console.log('pagina successiva');
+      this.fetchPosts(this.links.next);
+    },prevPage(){
+      console.log('pagina precendente');
+      this.fetchPosts(this.links.prev);
+
+    },
+    fetchPosts(link_api){
+      axios
+      .get(link_api)
+      .then(response =>{
+        
+          this.posts = response.data.data;
+          this.meta = response.data.meta;
+          this.links = response.data.links;
+          this.loading = true;
+          console.log(this.meta);
+      })
+    }
+
+  }
+}
+
+
+Successivamente creeremo altri due metodi che fungeranno da bottone per andare nella pagina precedente o nella successiva. Tramite la direttiva @click passiamo il metodo e notiamo come cambia pagina e allo stesso tempo in console sputnterà quello che abbiamo aggiunto.
+
+Arrivati a questo punto dovremo aggiungere una validazione, possiamo noterare come cliccando ancora sui bottoni per restituire pagine successive o precedenti ci genera diversi errori implementiamo due verifiche, una al bottone PrevPage e una al NextPage.
+
+Al bottone prevPage dovremo dire che compaia solo se il numero della pagina corrente sia maggiore di 1 -->
+    `v-if="meta.current_page > 1"`
+Al bottone nextPage dovremo dire che scompaia quando siamo nell'ultima pagina o che compaia solo quando non è l'ultima pagina --> `v-if="meta.current_page !== meta.last_page"`
+
+Per migliorare l'esperienza utente insieme ai tasti "avanti e indietro delle pagine" aggiungeremo anche la possibilità di scegliere e visualizzare quale pagine ci sono. e volendo anche cliccare su una di esse per andare a visualizzare quella pagina. 
+
+Come abbiamo costruito il tutto?
+ Abbiamo innanzitutto aggiunto un ciclo for per ciclare da 1 fino al numero dell'ultima pagina. Abbiamo aggiunto una classe in modo dinamico, in questo modo: `:class="n === meta.current_page ? 'btn-primary' : ''" ` con l'utilizzo di un operatore ternario.
+
+Rimuovo i console.log che intasano la console Conclusa la paginazione, vorrei implementare anche la possibilità di tornare alla pagina precedente quando entriamo in un articolo. 
+
+
+
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->

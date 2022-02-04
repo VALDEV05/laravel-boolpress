@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4" v-for="post in posts">
+            <div class="col-md-4" v-for="post in posts" :key="post.slug">
                 <div class="card mt-5 shadow-lg" style="height:250px">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
                         <h4 class="card-title">{{ post.title }}</h4>
@@ -23,9 +23,9 @@
             </div>
         </div>
         <div class="pagination d-flex justify-content-center mt-3">
-          <span class="btn text-secondary text-capitalize" @click="prevPage">prev</span>
-          <span class="btn btn-outline-primary">{{meta.current_page}}</span>
-          <span class="btn text-secondary text-capitalize" @click="nextPage">next</span>
+          <span class="btn text-secondary text-capitalize" @click="prevPage" v-if="meta.current_page > 1">prev</span>
+          <span class="btn" :class="n === meta.current_page ? 'btn-primary' : ''" @click="goToPage(n)" v-for="n in meta.last_page" :key="n">{{n}}</span>
+          <span class="btn text-secondary text-capitalize" @click="nextPage" v-if="meta.current_page !== meta.last_page">next</span>
         </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
       links:{},
       meta:{},
       loading: false,
-      url: 'api/posts'
+      url:'api/posts'
 
     }
   },
@@ -48,20 +48,24 @@ export default {
   },
   methods:{
     nextPage(){
-      console.log('pagina successiva');
+      this.fetchPosts(this.links.next);
     },prevPage(){
-      console.log('pagina precendente');
+      this.fetchPosts(this.links.prev);
+
     },
-    fetchPosts(url){
+    fetchPosts(link_api){
       axios
-        .get(url)
-        .then(response =>{
-            this.posts = response.data.data;
-            this.meta = response.data.meta;
-            this.links = response.data.links;
-            this.loading = true;
-            console.log(this.posts);
-        })
+      .get(link_api)
+      .then(response =>{
+        
+          this.posts = response.data.data;
+          this.meta = response.data.meta;
+          this.links = response.data.links;
+          this.loading = true;
+      })
+    },
+    goToPage(page_number){
+      this.fetchPosts('api/posts?page=' + page_number)
     }
 
   }

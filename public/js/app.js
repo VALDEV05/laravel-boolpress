@@ -2127,21 +2127,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     nextPage: function nextPage() {
-      console.log('pagina successiva');
+      this.fetchPosts(this.links.next);
     },
     prevPage: function prevPage() {
-      console.log('pagina precendente');
+      this.fetchPosts(this.links.prev);
     },
-    fetchPosts: function fetchPosts(url) {
+    fetchPosts: function fetchPosts(link_api) {
       var _this = this;
 
-      axios.get(url).then(function (response) {
+      axios.get(link_api).then(function (response) {
         _this.posts = response.data.data;
         _this.meta = response.data.meta;
         _this.links = response.data.links;
         _this.loading = true;
-        console.log(_this.posts);
       });
+    },
+    goToPage: function goToPage(page_number) {
+      this.fetchPosts('api/posts?page=' + page_number);
     }
   }
 });
@@ -37978,7 +37980,7 @@ var render = function () {
         "div",
         { staticClass: "row" },
         _vm._l(_vm.posts, function (post) {
-          return _c("div", { staticClass: "col-md-4" }, [
+          return _c("div", { key: post.slug, staticClass: "col-md-4" }, [
             _c(
               "div",
               {
@@ -38026,28 +38028,46 @@ var render = function () {
         "div",
         { staticClass: "pagination d-flex justify-content-center mt-3" },
         [
-          _c(
-            "span",
-            {
-              staticClass: "btn text-secondary text-capitalize",
-              on: { click: _vm.prevPage },
-            },
-            [_vm._v("prev")]
-          ),
+          _vm.meta.current_page > 1
+            ? _c(
+                "span",
+                {
+                  staticClass: "btn text-secondary text-capitalize",
+                  on: { click: _vm.prevPage },
+                },
+                [_vm._v("prev")]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "btn btn-outline-primary" }, [
-            _vm._v(_vm._s(_vm.meta.current_page)),
-          ]),
+          _vm._l(_vm.meta.last_page, function (n) {
+            return _c(
+              "span",
+              {
+                key: n,
+                staticClass: "btn",
+                class: n === _vm.meta.current_page ? "btn-primary" : "",
+                on: {
+                  click: function ($event) {
+                    return _vm.goToPage(n)
+                  },
+                },
+              },
+              [_vm._v(_vm._s(n))]
+            )
+          }),
           _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "btn text-secondary text-capitalize",
-              on: { click: _vm.nextPage },
-            },
-            [_vm._v("next")]
-          ),
-        ]
+          _vm.meta.current_page !== _vm.meta.last_page
+            ? _c(
+                "span",
+                {
+                  staticClass: "btn text-secondary text-capitalize",
+                  on: { click: _vm.nextPage },
+                },
+                [_vm._v("next")]
+              )
+            : _vm._e(),
+        ],
+        2
       ),
     ]),
   ])
