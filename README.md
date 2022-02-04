@@ -1555,6 +1555,38 @@ Aggiungendo uno slug alla fine dell'url avremo il nostro singolo elemento
 
 `http://127.0.0.1:8000/blogs/sed-aperiam-sequi-ut`
 
+# Aggiungiamo il link a button more view
+
+Al nostro bottone aggiungere il solito componente che sostituisce gli anchor-tag ovvero <router-link></router-link>
+dove come rotta che risponde all'attributo `:to="rotta"` concateniamo una stringa formata dalla stringa blogs e dal parametro raccolto tramite lo slug in questo modo: `<router-link :to="'/blogs/' + post.slug">View More</router-link>`. 
+
+cliccando questo link ora vedremo il nuovo componente ovvero il singolo articolo. A cui dovremo aggiungere una chiamata API che ci restituisca il contenuto dell'articolo.
+
+aggiungiamo alla chiamata API nel file API.php
+`Route::get('posts/{post}', 'Api\PostController@show');`
+e al controller `Api\PostController@show` ho aggiunto una nuova risorsa in questo modo: `return new PostResource($post);`. Ora controllo mediante l'utilizzo di postaman il nuovo url generato e vediamo che ci riporta la risorsa corretta.
+
+Facciamo la chiamata Api singola
+`export default {
+  data(){
+    return{
+      game:{}
+    }
+  },
+  mounted(){
+    axios.get('/api/posts/' + this.$route.params.slug )
+    .then((response) => {
+      console.log(response.data.data)
+    }).catch(error =>{
+      console.error(error);
+    });
+  }
+}`
+
+nella console vedremo il post
+
+
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->

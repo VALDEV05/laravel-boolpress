@@ -2038,7 +2038,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      game: {}
+    };
+  },
+  mounted: function mounted() {
+    axios.get('/api/posts/' + this.$route.params.slug).then(function (response) {
+      console.log(response.data.data);
+    })["catch"](function (error) {
+      console.error(error);
+    });
+  }
+});
 
 /***/ }),
 
@@ -37875,9 +37888,11 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "blog" }, [
-    _c("h1", [_vm._v("Single game")]),
+    _c("h1", { staticClass: "text-center" }, [_vm._v("Single game")]),
     _vm._v(" "),
-    _c("h4", [_vm._v(_vm._s(_vm.$route.params.slug))]),
+    _c("p", { staticClass: "text-center mb-0" }, [
+      _vm._v(_vm._s(_vm.$route.params.slug)),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -37915,7 +37930,7 @@ var render = function () {
               "div",
               {
                 staticClass: "card mt-5 shadow-lg",
-                staticStyle: { height: "200px" },
+                staticStyle: { height: "250px" },
               },
               [
                 _c(
@@ -37933,16 +37948,19 @@ var render = function () {
                       _vm._v(_vm._s(post.sub_title)),
                     ]),
                     _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(post.slug))]),
+                    _vm._v(" "),
                     _c(
-                      "a",
+                      "router-link",
                       {
                         staticClass:
                           "text-decoration-none text-uppercase text-primary btn btn-outline-primary btn-lg",
-                        attrs: { href: "#" },
+                        attrs: { to: "/blogs/" + post.slug },
                       },
                       [_vm._v("View More")]
                     ),
-                  ]
+                  ],
+                  1
                 ),
               ]
             ),
