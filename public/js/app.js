@@ -2060,7 +2060,6 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios.get('/api/posts/' + this.$route.params.slug).then(function (response) {
-      console.log(response.data.data);
       _this.post = response.data.data;
     })["catch"](function (error) {
       console.error(error);
@@ -2079,7 +2078,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //

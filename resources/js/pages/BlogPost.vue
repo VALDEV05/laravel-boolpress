@@ -27,12 +27,12 @@ export default {
   mounted(){
     axios.get('/api/posts/' + this.$route.params.slug )
     .then((response) => {
-      console.log(response.data.data)
       this.post = response.data.data;
     }).catch(error =>{
       console.error(error);
     });
-  }
+    
+  },
 }
 </script>
 

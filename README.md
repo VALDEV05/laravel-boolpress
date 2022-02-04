@@ -1633,12 +1633,10 @@ export default {
       axios
       .get(link_api)
       .then(response =>{
-        
           this.posts = response.data.data;
           this.meta = response.data.meta;
           this.links = response.data.links;
           this.loading = true;
-          console.log(this.meta);
       })
     }
 

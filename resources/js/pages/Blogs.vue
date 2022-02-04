@@ -16,8 +16,7 @@
                         <h4 class="card-title">{{ post.title }}</h4>
                         <p class="card-text">{{ post.sub_title }}</p>
                         <p>{{ post.slug }}</p>
-                        <router-link :to="'/blogs/' + post.slug" class="text-decoration-none text-uppercase text-primary btn btn-outline-primary btn-lg">View More</router-link>
-                    </div>    
+                        <router-link :to="'/blogs/' + post.slug" class="text-decoration-none text-uppercase text-primary btn btn-outline-primary btn-lg">View More</router-link>                    </div>    
                 </div>
                 <!-- /.card -->
             </div>
@@ -39,8 +38,7 @@ export default {
       links:{},
       meta:{},
       loading: false,
-      url:'api/posts'
-
+      url:'api/posts',
     }
   },
   mounted(){
@@ -51,13 +49,11 @@ export default {
       this.fetchPosts(this.links.next);
     },prevPage(){
       this.fetchPosts(this.links.prev);
-
     },
     fetchPosts(link_api){
       axios
       .get(link_api)
       .then(response =>{
-        
           this.posts = response.data.data;
           this.meta = response.data.meta;
           this.links = response.data.links;
@@ -66,9 +62,9 @@ export default {
     },
     goToPage(page_number){
       this.fetchPosts('api/posts?page=' + page_number)
-    }
+    },
 
-  }
+  },
 }
 </script>
 
