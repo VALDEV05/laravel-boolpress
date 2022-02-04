@@ -53,12 +53,6 @@
                                 Blog
                             </p>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('guest.SPAposts.index') }}"><i class="fab fa-vuejs fa-lg fa-fw"></i></a>
-                            <p class="mb-0">
-                                SPA blog
-                            </p>
-                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
