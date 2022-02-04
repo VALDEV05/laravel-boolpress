@@ -2132,10 +2132,10 @@ __webpack_require__.r(__webpack_exports__);
     prevPage: function prevPage() {
       console.log('pagina precendente');
     },
-    fetchPosts: function fetchPosts(url) {
+    fetchPosts: function fetchPosts(link_api) {
       var _this = this;
 
-      axios.get(url).then(function (response) {
+      axios.get(link_api).then(function (response) {
         _this.posts = response.data.data;
         _this.meta = response.data.meta;
         _this.links = response.data.links;

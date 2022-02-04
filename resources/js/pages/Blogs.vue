@@ -39,7 +39,7 @@ export default {
       links:{},
       meta:{},
       loading: false,
-      url: 'api/posts'
+      url:'api/posts'
 
     }
   },
@@ -52,16 +52,17 @@ export default {
     },prevPage(){
       console.log('pagina precendente');
     },
-    fetchPosts(url){
+    fetchPosts(link_api){
       axios
-        .get(url)
-        .then(response =>{
-            this.posts = response.data.data;
-            this.meta = response.data.meta;
-            this.links = response.data.links;
-            this.loading = true;
-            console.log(this.posts);
-        })
+      .get(link_api)
+      .then(response =>{
+        
+          this.posts = response.data.data;
+          this.meta = response.data.meta;
+          this.links = response.data.links;
+          this.loading = true;
+          console.log(this.posts);
+      })
     }
 
   }
