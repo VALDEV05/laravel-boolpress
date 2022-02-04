@@ -49,8 +49,11 @@ export default {
   methods:{
     nextPage(){
       console.log('pagina successiva');
+      this.fetchPosts(this.links.next);
     },prevPage(){
       console.log('pagina precendente');
+      this.fetchPosts(this.links.prev);
+
     },
     fetchPosts(link_api){
       axios
@@ -61,7 +64,7 @@ export default {
           this.meta = response.data.meta;
           this.links = response.data.links;
           this.loading = true;
-          console.log(this.posts);
+          console.log(this.links);
       })
     }
 

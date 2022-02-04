@@ -2128,9 +2128,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     nextPage: function nextPage() {
       console.log('pagina successiva');
+      this.fetchPosts(this.links.next);
     },
     prevPage: function prevPage() {
       console.log('pagina precendente');
+      this.fetchPosts(this.links.prev);
     },
     fetchPosts: function fetchPosts(link_api) {
       var _this = this;
@@ -2140,7 +2142,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta = response.data.meta;
         _this.links = response.data.links;
         _this.loading = true;
-        console.log(_this.posts);
+        console.log(_this.links);
       });
     }
   }
