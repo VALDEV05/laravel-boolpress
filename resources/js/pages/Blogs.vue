@@ -10,7 +10,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4" v-for="post in posts">
+            <div class="col-md-4" v-for="post in posts" :key="post.slug">
                 <div class="card mt-5 shadow-lg" style="height:250px">
                     <div class="card-body text-center d-flex flex-column justify-content-between">
                         <h4 class="card-title">{{ post.title }}</h4>
@@ -24,7 +24,7 @@
         </div>
         <div class="pagination d-flex justify-content-center mt-3">
           <span class="btn text-secondary text-capitalize" @click="prevPage" v-if="meta.current_page > 1">prev</span>
-          <span class="btn" :class="n === meta.current_page ? 'btn-primary' : ''" @click="goToPage(n)" v-for="n in meta.last_page">{{n}}</span>
+          <span class="btn" :class="n === meta.current_page ? 'btn-primary' : ''" @click="goToPage(n)" v-for="n in meta.last_page" :key="n">{{n}}</span>
           <span class="btn text-secondary text-capitalize" @click="nextPage" v-if="meta.current_page !== meta.last_page">next</span>
         </div>
     </div>
@@ -48,10 +48,8 @@ export default {
   },
   methods:{
     nextPage(){
-      console.log('pagina successiva');
       this.fetchPosts(this.links.next);
     },prevPage(){
-      console.log('pagina precendente');
       this.fetchPosts(this.links.prev);
 
     },
@@ -64,7 +62,6 @@ export default {
           this.meta = response.data.meta;
           this.links = response.data.links;
           this.loading = true;
-          console.log(this.meta);
       })
     },
     goToPage(page_number){
