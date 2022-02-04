@@ -1653,6 +1653,17 @@ Arrivati a questo punto dovremo aggiungere una validazione, possiamo noterare co
 Al bottone prevPage dovremo dire che compaia solo se il numero della pagina corrente sia maggiore di 1 -->
     `v-if="meta.current_page > 1"`
 Al bottone nextPage dovremo dire che scompaia quando siamo nell'ultima pagina o che compaia solo quando non è l'ultima pagina --> `v-if="meta.current_page !== meta.last_page"`
+
+Per migliorare l'esperienza utente insieme ai tasti "avanti e indietro delle pagine" aggiungeremo anche la possibilità di scegliere e visualizzare quale pagine ci sono. e volendo anche cliccare su una di esse per andare a visualizzare quella pagina. 
+
+Come abbiamo costruito il tutto?
+ Abbiamo innanzitutto aggiunto un ciclo for per ciclare da 1 fino al numero dell'ultima pagina. Abbiamo aggiunto una classe in modo dinamico, in questo modo: `:class="n === meta.current_page ? 'btn-primary' : ''" ` con l'utilizzo di un operatore ternario.
+
+Rimuovo i console.log che intasano la console Conclusa la paginazione, vorrei implementare anche la possibilità di tornare alla pagina precedente quando entriamo in un articolo. 
+
+
+
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->

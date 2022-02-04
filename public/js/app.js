@@ -2144,6 +2144,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.loading = true;
         console.log(_this.meta);
       });
+    },
+    goToPage: function goToPage(page_number) {
+      this.fetchPosts('api/posts?page=' + page_number);
     }
   }
 });
@@ -38039,9 +38042,21 @@ var render = function () {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "btn btn-outline-primary" }, [
-            _vm._v(_vm._s(_vm.meta.current_page)),
-          ]),
+          _vm._l(_vm.meta.last_page, function (n) {
+            return _c(
+              "span",
+              {
+                staticClass: "btn",
+                class: n === _vm.meta.current_page ? "btn-primary" : "",
+                on: {
+                  click: function ($event) {
+                    return _vm.goToPage(n)
+                  },
+                },
+              },
+              [_vm._v(_vm._s(n))]
+            )
+          }),
           _vm._v(" "),
           _vm.meta.current_page !== _vm.meta.last_page
             ? _c(
@@ -38053,7 +38068,8 @@ var render = function () {
                 [_vm._v("next")]
               )
             : _vm._e(),
-        ]
+        ],
+        2
       ),
     ]),
   ])
