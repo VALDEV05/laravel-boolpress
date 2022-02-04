@@ -1,8 +1,19 @@
 <template>
-  <div class="blog">
-      <h1 class="text-center">Single game</h1>
-      <p class="text-center mb-0">{{ $route.params.slug }}</p>
-      <h4 class="text-center">{{ post.title  }}</h4>
+  <div class="blog container">
+
+    <div class="post text-center">
+      <h1>{{ post.title }}</h1>
+      <h5 class="text-muted">{{ post.title }}</h5>
+      <div id="img">
+        <img :src="'/storage/' + post.cover" alt="post.title" style="max-width: 100%;">
+      </div>
+      <div class="body mt-3">
+        <p class="mb-0">
+          {{ post.body }}
+        </p>
+      </div>
+    </div>
+
   </div>
 </template>
 

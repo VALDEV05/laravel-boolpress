@@ -1590,6 +1590,8 @@ Ovviamente dovremo impostare e assegnare al dato post i dati in questo modo all'
 
 
 
+aggiunto dello stile e tutti i contenuti alla pagina
+
 # MIGLIORIE LATO DESIGN 
 - LATO GUEST
    <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->

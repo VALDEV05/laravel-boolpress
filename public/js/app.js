@@ -2039,6 +2039,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37891,14 +37902,25 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "blog" }, [
-    _c("h1", { staticClass: "text-center" }, [_vm._v("Single game")]),
-    _vm._v(" "),
-    _c("p", { staticClass: "text-center mb-0" }, [
-      _vm._v(_vm._s(_vm.$route.params.slug)),
+  return _c("div", { staticClass: "blog container" }, [
+    _c("div", { staticClass: "post text-center" }, [
+      _c("h1", [_vm._v(_vm._s(_vm.post.title))]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-muted" }, [_vm._v(_vm._s(_vm.post.title))]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "img" } }, [
+        _c("img", {
+          staticStyle: { "max-width": "100%" },
+          attrs: { src: "/storage/" + _vm.post.cover, alt: "post.title" },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "body mt-3" }, [
+        _c("p", { staticClass: "mb-0" }, [
+          _vm._v("\n        " + _vm._s(_vm.post.body) + "\n      "),
+        ]),
+      ]),
     ]),
-    _vm._v(" "),
-    _c("h4", { staticClass: "text-center" }, [_vm._v(_vm._s(_vm.post.title))]),
   ])
 }
 var staticRenderFns = []
