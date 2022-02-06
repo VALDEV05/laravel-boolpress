@@ -1633,12 +1633,10 @@ export default {
       axios
       .get(link_api)
       .then(response =>{
-        
           this.posts = response.data.data;
           this.meta = response.data.meta;
           this.links = response.data.links;
           this.loading = true;
-          console.log(this.meta);
       })
     }
 
@@ -1660,6 +1658,10 @@ Come abbiamo costruito il tutto?
  Abbiamo innanzitutto aggiunto un ciclo for per ciclare da 1 fino al numero dell'ultima pagina. Abbiamo aggiunto una classe in modo dinamico, in questo modo: `:class="n === meta.current_page ? 'btn-primary' : ''" ` con l'utilizzo di un operatore ternario.
 
 Rimuovo i console.log che intasano la console Conclusa la paginazione, vorrei implementare anche la possibilità di tornare alla pagina precedente quando entriamo in un articolo. 
+
+
+Aggiunta la possibilità di tornare indietro quando si è finito di leggere un articolo 
+
 
 
 

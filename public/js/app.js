@@ -2050,6 +2050,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2060,11 +2063,15 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios.get('/api/posts/' + this.$route.params.slug).then(function (response) {
-      console.log(response.data.data);
       _this.post = response.data.data;
     })["catch"](function (error) {
       console.error(error);
     });
+  },
+  methods: {
+    back: function back() {
+      this.$router.go(-1);
+    }
   }
 });
 
@@ -2079,7 +2086,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -37931,9 +37937,28 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "blog container" }, [
     _c("div", { staticClass: "post text-center" }, [
-      _c("h1", [_vm._v(_vm._s(_vm.post.title))]),
+      _c("div", { staticClass: "d-flex" }, [
+        _c("h1", [_vm._v(_vm._s(_vm.post.title))]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "btn btn-outline-primary ml-auto d-flex justify-content-center align-items-center",
+            on: { click: _vm.back },
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-backward",
+              attrs: { "aria-hidden": "true" },
+            }),
+          ]
+        ),
+      ]),
       _vm._v(" "),
-      _c("h5", { staticClass: "text-muted" }, [_vm._v(_vm._s(_vm.post.title))]),
+      _c("h5", { staticClass: "text-muted text-left" }, [
+        _vm._v(_vm._s(_vm.post.sub_title)),
+      ]),
       _vm._v(" "),
       _c("div", { attrs: { id: "img" } }, [
         _c("img", {
