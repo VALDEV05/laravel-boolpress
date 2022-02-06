@@ -1660,6 +1660,10 @@ Come abbiamo costruito il tutto?
 Rimuovo i console.log che intasano la console Conclusa la paginazione, vorrei implementare anche la possibilità di tornare alla pagina precedente quando entriamo in un articolo. 
 
 
+Aggiunta la possibilità di tornare indietro quando si è finito di leggere un articolo 
+
+
+
 
 
 # MIGLIORIE LATO DESIGN 

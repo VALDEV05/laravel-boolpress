@@ -1,9 +1,12 @@
 <template>
   <div class="blog container">
-
     <div class="post text-center">
-      <h1>{{ post.title }}</h1>
-      <h5 class="text-muted">{{ post.title }}</h5>
+      <div class="d-flex">
+          <h1>{{ post.title }}</h1>
+          <div class="btn btn-outline-primary ml-auto d-flex justify-content-center align-items-center" @click="back"><i class="fa fa-backward" aria-hidden="true"></i></div>
+      </div>
+      
+      <h5 class="text-muted text-left">{{ post.sub_title }}</h5>
       <div id="img">
         <img :src="'/storage/' + post.cover" alt="post.title" style="max-width: 100%;">
       </div>
@@ -21,7 +24,7 @@
 export default {
   data(){
     return{
-      post:{}
+      post:{},
     }
   },
   mounted(){
@@ -31,8 +34,13 @@ export default {
     }).catch(error =>{
       console.error(error);
     });
-    
+
   },
+  methods:{
+    back(){
+      this.$router.go(-1)
+    }
+  }
 }
 </script>
 
