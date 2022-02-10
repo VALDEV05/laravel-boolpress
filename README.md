@@ -1148,21 +1148,530 @@ Completato aggiunto un form all'interno della view show cretata una nuova mailab
 - COMPLETATO ho provato ad impostare entrambi i metodi
 
 - Provo la paginazione e l'aggiunta della categoria User in quanto è l'unica popolata
+- Problema con il collegamneto delle relazioni
 
 
+- Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API..
+- Agginto il controller Api/PostController
 
-- Create un controller per gestire l'azione della rotta api in un namespace dedicato alle API.
+### Definire una Risorsa API Eloquent
+
+Trasforma facilmente i modelli Elonquent in un JSON
+
+[Documentazione](https://laravel.com/docs/7.x/eloquent-resources#generating-resources)
+
+Creazione della Risorsa
+``php artisan make:resource PostResource``
+
+importo all'interno di web.php 
+``use App\Http\Resources\PostResource;``
+
+
 - Commentate via il metodo che avete scelto sopra per sevice le risorse in formato json e sostituitelo con una Eloquent API resource.
 - Ricordatevi che, se il nostro endpoint deve restituire una collection di risorse laravel consiglia di usare ::collection() oppure di creare una risorsa di tipo collection
 - La risorsa api eloquent la possiamo creare con `make:resource` 
     se aggiungiamo l'opzione `--collection` oppure al nome della classe aggiungiamo il prefisso `Collection` ad laravel crea una resource collection.
     ``php artisan make:resource`` PostResource crea una risorsa normale `php artisan make:resource PostCollection` crea una risorsa di tipo collection.
 
+- COMPLETATO Creato L'endpoint per una richiesta con allegata la relazione delle categorie
+
+Aggiunti tramite tinker delle relazione: ``$model->relation()->attach(idToAttach)`` Oppure per eliminare una relazione usiamo il detach  
+``$model->relation()->detach(idToDetach)``
+``/* 
+    Metodo "Lungo"
+Route::get('posts', function(){
+    $posts = Post::all();
+    return response()->json([
+        'response' => $posts
+    ]);
+}); */
 
 
-Fatto l'endpoint passate all'utilizzo di Vue:
+/* 
+    Senza paginazione
+Route::get('posts', function(){
+    $posts = Post::all();
+    return $posts;
+}); */
+
+/* 
+    Con la paginazione
+Route::get('posts', function(){
+    $posts = Post::paginate(10);
+    return $posts;
+}); */
+
+
+/**
+ * Rotta con paginazione e relazione users 
+ * 
+ * *Problema con il collegamento della relazione user*
+ */
+/* Route::get('posts', function(){
+    $posts = Post::with(['user'])->get();
+    return $posts;
+});
+ */
+``
+
+
+# Fatto l'endpoint passate all'utilizzo di Vue:
+
+Avendo utilizzato la laravel ui vue durante l'installazione iniziale allora è già installato
+
+Lo richiamo utilizzando il pacchetto frontend NPM
+Se non lo avevi fatto in precedenza, sennò ti elimina tutti i settagi di webpackmix
+`php artisan ui vue npm install && npm run dev npm run watch`
+
+
 - create un componente per mostrare un'elenco di posts in una nuova rotta.
-- visto che ci siete, nella stessa pagina mostrate anche categorie e tags.
+
+Dato che dovrò creare tramite vue un altro blog creo all'interno del menu un link con icona vue.
+ Creata la view la identifico tramite una rotta all'interno del file web.php
+
+
+`/* Route to the blog with vueAPI   */
+Route::get('/SPAposts', function(){
+return view('guest.SPAposts.index');
+})->name('guest.SPAposts.index');`
+
+
+con lo scaffolding scaricato all'inizio abbiamo installto tutta la parte di vuejs ovvero app.js e admin.js che useremo per usufruire delle nostre API.
+All'interno di questi file possiamo notare come viene già impostato e preparato l'istanza di VUEJS e il collegamento a un componente di esempio `<example-component></example-component>`
+Volendo per visualizzarlo potremmo aggiungerlo alla nostra pagina.
+
+
+`resources/views/guest/SPAposts/index.blade.php`
+Breve descrizione della struttura della pagina:
+- abbiamo esteso il layout `('layouts.app')`
+- Abbiamo collegato tramite lo yield content 
+- Abbiamo aggiunto il componente d'esempio
 
 
 
+@extends('layouts.app')
+@section('content')
+
+    <div class="p-5 bg-light">
+        <div class="container text-center">
+            <h1 class="display-3"><i class="fab fa-vuejs fa-lg fa-fw"></i> SPA BLOG <i class="fab fa-vuejs fa-lg fa-fw"></i></h1>
+            <p class="lead text-muted"><i class="fab fa-forumbee"></i> Qui mostreremo tutta la lista dei post stampati tramite l'utilizzo di un API <i class="fab fa-forumbee"></i></p>
+            <hr class="my-2">
+
+            <example-component></example-component>
+        </div>
+    </div>
+@endsection
+
+
+
+In questo modo visualizzeremo il componente esempio di vue.
+Il componente di esempio è come i componenti che abbiamo già utilizzato tramite VUECLI ovvero sono formati da <template> - <script> - <style>.
+
+
+Costruiamoci un componente tutto nostro che utilizzeremo per mostrarci tutte le nostre risorse 
+
+
+## Creazione di un componente tutto nostro:
+
+    - Aggiungiamo la registrazione del componente all'interno del file app.js dove copieremo la riga 22 ovvero dove viene registrato il example-component
+
+    ``Vue.component('example-component', require('./component/ExampleComponent.vue').default);``
+
+    E la personalizzeremo a modo nostro il componente sarà posts-list in quanto dovrà presentare una lista di articoli di un blog.
+
+    Vue.component('posts-list', require('./components/PostsListComponent.vue').default);
+
+
+    Ci dovremo creare questo componente a mano. `resources/js/components` path completo dove creare il componente
+
+    creato il componente lo aggiungiamo alla nostra view `<posts-list></posts-list>`
+
+    aggiunto il componente passiamo alla creazione del template 
+
+        <template>
+
+        </template>
+
+        <script>
+            export default {
+
+            }
+        </script>
+
+        <style>
+
+        </style> 
+
+    possiamo passare a fare la chiamata axios tramite lo script:
+    
+    <script>
+        export default {
+            mounted(){
+                axios
+                    .get('api/posts')
+                    .then(response => {
+                        console.log(response.data.data);
+                    })
+            }
+        }
+    </script>
+    
+
+    In questo modo all'interno della console potremo visualizzare i dati passati dall'endPoint. 
+    - Con questo console.log(response.data.data); avremo solamente i post di cui abbiamo bisogno, ma se togliessimo i data 
+    mostreremo un console.log(response); di questo genere avremo in più tutti quei dati di cui potremo usufruire come:
+    - in caso di paginazione i link per la paginazione
+    - i metadata ovvero tutti quei dati di informazioni come pagina corrente numero di elementi per pagina totale dei posti e molto altro.
+
+
+    Dato che l'ogetto game ancora deve essere definito in questo momento non funzionerà 
+
+    definiamolo:
+        <script>
+            export default {
+                data(){
+                    return{
+                        loading: true,
+                        posts: {},
+                        meta: {},
+                        links: {},
+                    };
+                },
+                mounted(){
+                    axios
+                        .get('api/posts')
+                        .then(response => {
+                            console.log(response.data.data);
+                            this.posts = response.data.data;
+                            this.meta = response.data.meta;
+                            this.links = response.data.links;
+                            this.loading = false;
+                        })
+                }
+            }
+        </script>
+    Nel nostro caso aggiungeremo anche delle altr variabili come loading che useremo per il caricamento nell'attesa del caricamento della pagina, una variabile dove salveremo tutti i nostri posts, una dove salveremo  links per la paginazione e una per salvare tutti i metadata
+
+    Passiamo nel mostrare a schermo tutti i posts
+    basterà solamente richiamare la struttura dei posts
+
+    <template>
+        <section class="posts row">
+            <div class="post col-md-4" v-for="post in posts">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>{{ post.title }}</h3>
+                        <p class="text-muted">{{ post.title }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+- visto che ci siete, nella stessa pagina mostrate anche categorie e tags 
+    aggiunta la relazione con le categorie, ma non sono riuscito ad aggiungere quella con i tags ho provato con:
+    <p class="mb-0">
+        Tags : {{ post.tags }}
+    </p>
+    Ma non riesco poi a prendere i nomi, mi stampa solo tutto l'array
+
+
+
+# Implementazione applicazione a singola pagina
+ 
+
+- Partiamo dal principio, cos'è un'applicazione a singola pagina?
+    È un'applicazione web in cui il contenuto viene caricato dinamicamente senza dover ricaricare la pagina. Passeremo da una pagina all'altra senza mai aspettare il tempo in cui la pagina refresha. Ovviamente nel caso in cui il nostro server API avesse un ritardo o comunque fosse lento nel mostrarci la nostra risorsa in quel caso non attenderemo su una pagina bianca in attesa di caricamento ma attenderemo solo il caricamento della risorsa. Magari possiamo aggiungere un simbolo di download nell'attesa del caricamento della risorsa.
+
+-  Per implementare questa applicazione a singola pagina dobbiamo aggiungere una nuova libreria che fa parte  dell'ecosistema di vuejs. La libreria in questione è **Vue Router** [documentazione](https://router.vuejs.org/) che tramite il file web.php intercetta le rotte e utilizzandi i componenti che ci mette a disposizione ci permette di mostrare questa esperienza utente al cliente. Appunto è il pacchetto ufficiale di VueJS per quanto riguarda la gestione delle rotte.
+
+- L'installazione può avvenire o tramite CDN o tramite installazione da CLI passando tramite il pacchetto NPM 
+    `npm i vue-router` poi dobbiamo inniettarlo all'interno di Vue all'interno del file app.js
+
+
+    `import Vue from 'vue'
+     import VueRouter from 'vue-router'
+     Vue.use(VueRouter)`
+
+
+## Setup vue router
+
+// 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
+// and then call `Vue.use(VueRouter)`.
+
+// 1. Define route components.
+// These can be imported from other files
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+// 2. Define some routes
+// Each route should map to a component. The "component" can
+// either be an actual component constructor created via
+// `Vue.extend()`, or just a component options object.
+// We'll talk about nested routes later.
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 3. Create the router instance and pass the `routes` option
+// You can pass in additional options here, but let's
+// keep it simple for now.
+const router = new VueRouter({
+  routes // short for `routes: routes`
+})
+
+// 4. Create and mount the root instance.
+// Make sure to inject the router with the router option to make the
+// whole app router-aware.
+const app = new Vue({
+  router
+}).$mount('#app')
+
+// Now the app has started!
+
+
+
+# STEP 1 Definizione dei componenti
+- Eseguito lo step dell'installazione possiamo passare allo step della definizioni delle route pages components ovver nel file app.js definiamo delle rotte per delle pagini che sono simili a dei componenti. 
+
+
+`const Home = Vue.component('Home', require('./pages/Home.vue').default);
+ const About = Vue.component('About', require('./pages/About.vue').default);
+ const Contacts = Vue.component('Contacts', require('./pages/Contacts.vue').default);`
+
+# STEP 2 Definizione delle rotte
+Definite anche le pagine passiamo alla definizione delle rotte
+    Abbiamo detto che utilizzando questa applicazione a signola pagina i componenti intercetteranno delle rotte e noi dovremo solamente servire il nome della rotta e il nome della pagina da restituire e faranno tutto i componenti di vue.router come ad esempio `<router-link to="/foo">Go to Foo</router-link>` questo componente ha la stessa funzionalità di un anchor tag `<a href="rotta-da-eseguire">nome da mostrare</a>`
+
+
+Definizione delle rotte
+const routes = [
+    {
+        path: '/', //URI
+        name: 'home', //name della rotta
+        component: Home //componente da restituire '''''view'''''
+    },
+    {
+        path: '/about', //URI
+        name: 'about', //name della rotta
+        component: About //componente da restituire '''''view'''''
+    },
+    {
+        path: '/contacts', //URI
+        name: 'contacts', //name della rotta
+        component: Contacts //componente da restituire '''''view'''''
+    }
+]
+
+
+# STEP 3 Creazione del'istanza vue epassagio del parametro Routes
+
+// 3. Create the router instance and pass the `routes` option
+const router = new VueRouter({
+    routes
+})
+
+# STEP 4 Assicuriamoci che Vue router sia correttamente inniettato all'interno dell'istanza
+
+const app = new Vue({
+    router,
+    el: '#app',
+});
+
+Basterà aggiungere 'router' all'interno dell'istanza
+
+
+
+# Dato che abbiamo anche la sezione di autenticazione di laravel ci creiamo un nuovo layout 
+Questo lo chiameremo spa.blade.php dove modificheremo solo la navbar di lato sinistro, in quanto non vogliamo toccare la parte della navbar con le autenticazioni di laravel.
+Creato il nuovo layout seguiamo con la creazione di un parziale dove metteremo la nostra navbar completa. La parte sinistra modifichiamo i link con i router-link in questo modo
+`<router-link to="/contacts" class="nav-link">Contacts</router-link>` Semplificheremo anche il layout dell'app a singola pagina importando solamente la navbar e lo yield (leveremo il tag del main)
+Il nostro obiettivo è quello di creare un componente che come quando utilizzavamo Vue Cli Ci gestisce un po il tutto infatti all'interno della cartella resources/js creeremo un componente chiamato App.vue dove estendere il nostro template base di vue
+
+
+All'interno del nostro dovremo aggiungere il componente che si preoccupa di gestire tutte le rotte `<router-view></router-view>` che ovviamente andrà importato all'interno del nostro file `app.js`-> in questo modo: `Vue.component('App', require('./App.vue').default);`
+
+Dovremo mostrare tutto ciò: utilizzeremo la rotta che laravel imposta di default ovvero `guest.welcome` dove importeremo il componente App e il layout a singola pagina
+`@extends('layouts.spa')
+@section('content')
+  <App></App>
+@endsection`
+
+In questo modo potremo visualizzare l'inizio della nostra applicazione a singola pagina, ovvero vedremo che anche switchando link della pagina il browser non ricaricherà mai.
+Possiamo notare come all'interno del link ci sia un hash ovvero quel cancelletto che è nel nostro link `http://127.0.0.1:8000/#/contacts`. Possiamo togliere impostando come modalità di default `History Mode` adesso come proprieta di default è impostata la `Hash mode`
+
+Per modificare questa modalità basterà aggiungere ` mode: 'history',` dove abbiamo creato l'istanza.
+
+
+Ora dovremo costruire una nuova modalità di rotta, una che cattura tutto infatti sarà di tipo catch ha la funzione di catturare tutte le rotte, solo dobbiamo fare attenzione perchè dovrà essere **sempre la nostra ultima rotta** in quanto non legge le rotte successive.
+Non mostrerebbe neanche le rotte admin
+
+Route::get('/{any}', function () {
+    return view('guest.welcome');
+})->where('any', '.*');
+
+# Creiamo il componente per il blog
+const Blogs = Vue.component('Blogs', require('./pages/Blogs.vue').default);
+Ovviamnente ci aggiungiamo la rotta
+{
+    path: '/blogs', //URI
+    name: 'blogs', //name della rotta
+    component: Blogs //componente da restituire '''''view'''''
+}
+
+**ERROR in ./resources/js/app.js**
+Ovviamente NPM non troverà il componente, va creato.
+Aggiungiamo un link per accedere al blog
+<!-- <li class="nav-item">
+    <router-link class="nav-link" to="/blogs">Blogs</router-link>
+</li> -->
+
+All'interno di questo nuovo componente verrà usufruita l'endpoint della risorsa e verra stampata una lista di articoli
+- faremo la chiamata axios alla nostra rotta
+- successivamente stamperemo a schermo i nostri posts
+
+
+# Stampare a schermo il singolo articolo
+
+Aggiungiamo una rotta che dinamica che ci mostrerà il singolo articolo
+{
+    path: '/blogs/:slug', //URI
+    name: 'blogPost', //name della rotta
+    component: BlogPost //componente da restituire '''''view'''''
+}
+
+Questa nuova rotta ha l'aggiunta di un parametro che sarà colui che ci permetterà di collegarci al singolo post
+Ci definiamo il componente per il singolo gioco 
+Dove all'inizio metteremo solamente la stampa del parametro presa da {{ $route.params.slug }}
+`<template>
+  <div class="blog">
+      <h1>Single game</h1>
+      <h4>{{ $route.params.slug }}</h4>
+  </div>
+</template>`
+Aggiungendo uno slug alla fine dell'url avremo il nostro singolo elemento
+
+`http://127.0.0.1:8000/blogs/sed-aperiam-sequi-ut`
+
+# Aggiungiamo il link a button more view
+
+Al nostro bottone aggiungere il solito componente che sostituisce gli anchor-tag ovvero <router-link></router-link>
+dove come rotta che risponde all'attributo `:to="rotta"` concateniamo una stringa formata dalla stringa blogs e dal parametro raccolto tramite lo slug in questo modo: `<router-link :to="'/blogs/' + post.slug">View More</router-link>`. 
+
+cliccando questo link ora vedremo il nuovo componente ovvero il singolo articolo. A cui dovremo aggiungere una chiamata API che ci restituisca il contenuto dell'articolo.
+
+aggiungiamo alla chiamata API nel file API.php
+`Route::get('posts/{post}', 'Api\PostController@show');`
+e al controller `Api\PostController@show` ho aggiunto una nuova risorsa in questo modo: `return new PostResource($post);`. Ora controllo mediante l'utilizzo di postaman il nuovo url generato e vediamo che ci riporta la risorsa corretta.
+
+Facciamo la chiamata Api singola
+`export default {
+  data(){
+    return{
+      post:{}
+    }
+  },
+  mounted(){
+    axios.get('/api/posts/' + this.$route.params.slug )
+    .then((response) => {
+      console.log(response.data.data)
+    }).catch(error =>{
+      console.error(error);
+    });
+  }
+}`
+
+nella console vedremo il post
+
+
+Ovviamente dovremo impostare e assegnare al dato post i dati in questo modo all'interno del then della chiamata API aggiungiamo `this.post = response.data.data;` e possiamo provare ad aggiungere una semplice stampa del titolo per vedere il giusto funzionamento in questo modo: `<h4>{{ post.title }}</h4>`
+
+
+
+aggiunto dello stile e tutti i contenuti alla pagina
+
+Riattivate anche le rotte per quanto riguarda l'admin mancano da aggiungere solamente le relazioni
+
+# Paginazione
+
+all'interno dei metadati avremo tutti i link per quanto riguarda la paginazione
+aggiungiamo il markup per la paginazione 
+
+
+implementare la paginazione ogni volta che si clicca su un link avremo una nuova chiamata api quando ci troviamo nella prima e nell'ultima pagina dovremo far sparire il prev e next, possiamo aggiungere anche il numero delle pagine dovremo implementare anche tutta la logica dietro tramite vue.
+
+Implementiamo la paginazione
+
+
+Aggiungiamo un metodo che ci gestisca la chiamata API, sarà un fetch methods ovvero un metodo che acceta come variabile un link e sfrutta questo link per servire delle risorse. Lo impostiamo in questo modo:
+export default {
+  data(){
+    return{
+      posts:{},
+      links:{},
+      meta:{},
+      loading: false,
+      url:'api/posts'
+
+    }
+  },
+  mounted(){
+    this.fetchPosts(this.url);
+  },
+  methods:{
+    nextPage(){
+      console.log('pagina successiva');
+      this.fetchPosts(this.links.next);
+    },prevPage(){
+      console.log('pagina precendente');
+      this.fetchPosts(this.links.prev);
+
+    },
+    fetchPosts(link_api){
+      axios
+      .get(link_api)
+      .then(response =>{
+          this.posts = response.data.data;
+          this.meta = response.data.meta;
+          this.links = response.data.links;
+          this.loading = true;
+      })
+    }
+
+  }
+}
+
+
+Successivamente creeremo altri due metodi che fungeranno da bottone per andare nella pagina precedente o nella successiva. Tramite la direttiva @click passiamo il metodo e notiamo come cambia pagina e allo stesso tempo in console sputnterà quello che abbiamo aggiunto.
+
+Arrivati a questo punto dovremo aggiungere una validazione, possiamo noterare come cliccando ancora sui bottoni per restituire pagine successive o precedenti ci genera diversi errori implementiamo due verifiche, una al bottone PrevPage e una al NextPage.
+
+Al bottone prevPage dovremo dire che compaia solo se il numero della pagina corrente sia maggiore di 1 -->
+    `v-if="meta.current_page > 1"`
+Al bottone nextPage dovremo dire che scompaia quando siamo nell'ultima pagina o che compaia solo quando non è l'ultima pagina --> `v-if="meta.current_page !== meta.last_page"`
+
+Per migliorare l'esperienza utente insieme ai tasti "avanti e indietro delle pagine" aggiungeremo anche la possibilità di scegliere e visualizzare quale pagine ci sono. e volendo anche cliccare su una di esse per andare a visualizzare quella pagina. 
+
+Come abbiamo costruito il tutto?
+ Abbiamo innanzitutto aggiunto un ciclo for per ciclare da 1 fino al numero dell'ultima pagina. Abbiamo aggiunto una classe in modo dinamico, in questo modo: `:class="n === meta.current_page ? 'btn-primary' : ''" ` con l'utilizzo di un operatore ternario.
+
+Rimuovo i console.log che intasano la console Conclusa la paginazione, vorrei implementare anche la possibilità di tornare alla pagina precedente quando entriamo in un articolo. 
+
+
+Aggiunta la possibilità di tornare indietro quando si è finito di leggere un articolo 
+
+
+
+
+
+# MIGLIORIE LATO DESIGN 
+- LATO GUEST
+   <!--  RIDISEGNA LA NAV -> SEMMAI CREA UN PARZIALE PER SEPARARE LE COSE -->
+    <!-- MODIFICA L'ASPETTO DEI LINK -->
+- LATO ADMIN
+    - SEZIONI MESSAGGI
+        <!-- MODIFICA ASPETTO DELLE CARD MARGINE SUPERIORE  -->
+        MODIFICA IL TITOLO AGGIUNGI EMOTICON
+        AGGIUNGI shadow-lg a tutte le card
